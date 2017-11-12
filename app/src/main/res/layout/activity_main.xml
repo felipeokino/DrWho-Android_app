@@ -1,78 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/cardLightPurple"    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="v1.localhost.drwho.activity.Main">
+    tools:context="v1.localhost.drwho.activity.MainActivity">
 
-    <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-        <TextView
-            android:id="@+id/txtSpecs"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_above="@+id/btnAsc"
-            android:layout_alignEnd="@+id/btnAsc"
-            android:layout_alignStart="@+id/btnSincrono"
-            android:layout_marginBottom="26dp" />
-
-        <Button
-            android:id="@+id/btnSincrono"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ScrollView
+            android:layout_width="368dp"
+            android:layout_height="495dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="206dp"
-            android:text="GET Doctor" />
+            android:paddingLeft="4dp"
+            android:paddingTop="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent">
 
-        <Button
-            android:id="@+id/btnAsc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/btnSincrono"
-            android:layout_marginStart="72dp"
-            android:layout_toEndOf="@+id/btnSincrono"
-            android:text="Não funciona" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/txtNome"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_alignEnd="@+id/btnAsc"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/btnSincrono"
-            android:layout_marginTop="50dp" />
+                <ImageButton
+                    android:id="@+id/btnSchedule"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:background="#48168a"
+                    android:layout_marginTop="5dp"
+                    app:srcCompat="@drawable/ic_event"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
 
-        <Button
-            android:id="@+id/btnClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/btnAsc"
-            android:layout_alignStart="@+id/btnSincrono"
-            android:layout_below="@+id/btnSincrono"
-            android:layout_marginTop="25dp"
-            android:text="Clear" />
+                <ImageButton
+                    android:id="@+id/btnAddAppointment"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_alignStart="@+id/btnEdit"
+                    android:layout_alignTop="@+id/btnSchedule"
+                    android:layout_marginRight="10dp"
+                    android:background="#48168a"
+                    app:srcCompat="@drawable/ic_add" />
 
-        <TextView
-            android:id="@+id/lbNome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/txtNome"
-            android:layout_marginTop="28dp"
-            android:text="Name" />
+                <ImageButton
+                    android:id="@+id/btnProfile"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:background="#48168a"
+                    android:layout_marginTop="10dp"
+                    app:srcCompat="@drawable/ic_person_white_24dp"
+                    android:layout_below="@+id/btnSchedule"
+                    android:layout_alignParentStart="true" />
 
-        <TextView
-            android:id="@+id/lblSpecs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/txtSpecs"
-            android:layout_alignStart="@+id/txtSpecs"
-            android:text="Specialization" />
-    </RelativeLayout>
+                <ImageButton
+                    android:id="@+id/btnEdit"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_marginRight="12dp"
+                    android:background="#48168a"
+                    app:srcCompat="@drawable/ic_edit"
+                    android:layout_alignTop="@+id/btnProfile"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+        </ScrollView>
 </android.support.constraint.ConstraintLayout>

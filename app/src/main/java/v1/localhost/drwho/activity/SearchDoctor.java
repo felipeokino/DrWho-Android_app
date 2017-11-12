@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import v1.localhost.drwho.adapter.DoctorAdapter;
+import v1.localhost.drwho.adapter.doctorAdapter.DoctorAdapter;
 import v1.localhost.drwho.classes.DoctorResponse;
 import v1.localhost.drwho.models.Doctor;
 import v1.localhost.drwho.R;

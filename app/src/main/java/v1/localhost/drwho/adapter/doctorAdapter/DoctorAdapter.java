@@ -1,4 +1,4 @@
-package v1.localhost.drwho.adapter;
+package v1.localhost.drwho.adapter.doctorAdapter;
 
 import android.content.Context;
 import android.content.Intent;

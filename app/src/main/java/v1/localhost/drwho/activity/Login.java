@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
         });
     }
     public void Next(View view){
-        Intent intent = new Intent(this, Initial.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
     public void NextMain(View view){

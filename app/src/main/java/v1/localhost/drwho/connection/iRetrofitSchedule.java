@@ -1,7 +1,11 @@
 package v1.localhost.drwho.connection;
 
 import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import v1.localhost.drwho.classes.ScheduleResponse;
 import v1.localhost.drwho.models.AppointmentSchedule;
 
 /**
@@ -9,8 +13,18 @@ import v1.localhost.drwho.models.AppointmentSchedule;
  */
 
 public interface iRetrofitSchedule {
-    @POST("AppointmentSchedule/create")
+
+    String url = "http://192.168.1.40:8080/v1/";
+    @POST("appointmentSchedule/create")
     Call <AppointmentSchedule> MyAppointments();
+
+    @GET("appointmentSchedule/retrieveAllAppointmentSchedules?page=0&&size=20")
+    Call<ScheduleResponse> GetAllSchedules();
+
+    public static final Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
 
 }
