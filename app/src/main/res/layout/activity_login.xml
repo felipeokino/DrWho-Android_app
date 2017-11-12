@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/cardLightPurple"    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="v1.localhost.drwho.activity.Login">
+
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TextView
+            android:id="@+id/tvUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/edtUser"
+            android:layout_alignStart="@+id/edtUser"
+            android:layout_marginBottom="14dp"
+            android:text="User"
+            android:textColor="@color/colorLabelLogin"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="97dp" />
+
+        <TextView
+            android:id="@+id/tcPasswd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/edtPasswd"
+            android:layout_alignStart="@+id/edtUser"
+            android:layout_marginBottom="17dp"
+            android:text="Password"
+            android:textColor="@color/colorLabelLogin"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="175dp" />
+
+        <EditText
+            android:id="@+id/edtUser"
+            android:layout_width="354dp"
+            android:layout_height="42dp"
+            android:layout_above="@+id/edtPasswd"
+            android:layout_alignEnd="@+id/edtPasswd"
+            android:layout_marginBottom="60dp"
+            android:ems="10"
+            android:hint="CPF"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="15dp"
+            tools:layout_editor_absoluteY="122dp" />
+
+        <EditText
+            android:id="@+id/edtPasswd"
+            android:layout_width="356dp"
+            android:layout_height="43dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ems="10"
+            android:hint="*******"
+            android:inputType="numberPassword"
+            tools:layout_editor_absoluteX="14dp"
+            tools:layout_editor_absoluteY="204dp" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvNewUser"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="73dp"
+            android:text="Login"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="274dp" />
+
+        <TextView
+            android:id="@+id/tvNewUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="54dp"
+            android:text="Não sou cadastrado"
+            android:textColor="@color/colorLabelLogin"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="435dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4527A0</color>
+    <color name="colorPrimaryDark">#1A237E</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorLabelLogin">#424242</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="primary_light">#FF5252</color>
+    <color name="accent">#FFC107</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="cardLightPurple">#EDE7F6</color>
+    <color name="cardRed">#F48FB1</color>
+    <color name="cardPurple">#CE93D8</color>
+    <color name="cardRose">#EF9A9A</color>
+    <color name="cardLightBlue">#90CAF9</color>
+    <color name="cardBlue">#80CBC4</color>
+    <color name="cardGreen">#B2FF59</color>
+    <color name="cardYellow">#FFE082</color>
+    <color name="cardOrange">#FFCC80</color>
+    <color name="cardDeepOrange">#FFAB91</color>
+
+    <array name="card_colors">
+        <item>@color/cardRed</item>
+        <item>@color/cardBlue</item>
+        <item>@color/cardYellow</item>
+        <item>@color/cardDeepOrange</item>
+        <item>@color/cardOrange</item>
+        <item>@color/cardGreen</item>
+        <item>@color/cardRose</item>
+        <item>@color/cardLightBlue</item>
+        <item>@color/cardPurple</item>
+    </array>
+
+
+
+</resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/cardLightPurple"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="v1.localhost.drwho.activity.Initial">
+
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:background="@android:color/background_light"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <ImageButton
+            android:id="@+id/btnMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="13dp"
+            android:backgroundTint="@color/white"
+            android:tint="@color/mdtp_transparent_black"
+            app:srcCompat="@drawable/more" />
+
+        <ImageButton
+            android:id="@+id/btnAddAppointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnMore"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/white"
+            android:tint="@color/mdtp_transparent_black"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/addappointment" />
+
+        <ImageButton
+            android:id="@+id/btnMyAppointments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnAddAppointment"
+            android:layout_alignEnd="@+id/btnMore"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/white"
+            android:tint="@color/mdtp_transparent_black"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/search01" />
+
+        <ImageButton
+            android:id="@+id/btnProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnMyAppointments"
+            android:layout_alignStart="@+id/btnMore"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/white"
+            android:tint="@color/mdtp_transparent_black"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/edituser" />
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:layout_alignBottom="@+id/btnMore"
+            android:background="@color/cardPurple"
+            android:textColor="@color/white"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="17dp" />
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
