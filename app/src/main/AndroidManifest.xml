@@ -23,7 +23,6 @@
         <activity android:name=".activity.CreateDoctor" />
         <activity android:name=".activity.ChooseDay" />
         <activity android:name=".activity.SearchDoctor" />
-        <activity android:name=".activity.Initial" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.ScheduleActivity" />
         <activity android:name=".activity.InfoSchedule"></activity>

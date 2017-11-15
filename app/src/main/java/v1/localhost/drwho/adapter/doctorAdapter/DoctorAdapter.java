@@ -24,8 +24,8 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
     private List<Doctor> doctors;
     private Context context;
 
-    public DoctorAdapter(ArrayList<Doctor> doctors, Context context) {
-        this.doctors = new ArrayList<>();
+    public DoctorAdapter(ArrayList<Doctor> _doctors, Context context) {
+        this.doctors = _doctors;
         this.context = context;
     }
 
@@ -48,7 +48,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
         holder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //TODO open doctor;
             Intent intent = new Intent(context, CreateDoctor.class);
             intent.putExtra("doctorExtra", CreateDoctor.class);
             context.startActivity(intent);
@@ -75,13 +74,5 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
         }
     }
 
-    public List<Doctor> getNoteList() {
-        return doctors;
-    }
 
-    public void setNoteList(List<Doctor> noteList) {
-        this.doctors.clear();
-        this.doctors.addAll(noteList);
-        notifyDataSetChanged();
-    }
 }

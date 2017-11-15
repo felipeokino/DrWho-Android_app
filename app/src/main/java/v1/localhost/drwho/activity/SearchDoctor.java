@@ -41,13 +41,16 @@ public class SearchDoctor extends AppCompatActivity {
         setTitle("Search");
 
         InitializeComponent();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lvDoctors);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
 
         doctors = new ArrayList<>();
         doctorAdapter = new DoctorAdapter(doctors, getApplicationContext());
+
         recyclerView.setAdapter(doctorAdapter);
         doctorAdapter.notifyDataSetChanged();
+
+
 
         all = (RadioButton) findViewById(R.id.rbAllDoctor);
         specs = (RadioButton) findViewById(R.id.rbSpecs);
@@ -58,14 +61,14 @@ public class SearchDoctor extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                EmptySearch();
+                SearchAll();
 
             }
 
         });
     }
 
-    public void EmptySearch(){
+    public void SearchAll(){
         try{
             final iRetrofit allDoctors = iRetrofit.retrofit.create(iRetrofit.class);
             final Call<DoctorResponse> call = allDoctors.getAllDoctors();
@@ -75,8 +78,8 @@ public class SearchDoctor extends AppCompatActivity {
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
                     doctors = response.body().getResults();
                     doctorAdapter.notifyDataSetChanged();
-                    Toast.makeText(getBaseContext(), "Erro: " + response.code(), Toast.LENGTH_LONG).show();
 
+                    Toast.makeText(getBaseContext(), "Erro: " + response.code(), Toast.LENGTH_LONG).show();
                 }
 
                 @Override

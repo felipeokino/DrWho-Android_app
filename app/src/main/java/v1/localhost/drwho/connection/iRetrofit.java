@@ -23,7 +23,7 @@ public interface iRetrofit {
 
     //String url = "http://192.168.0.7:8080/v1/";
     //String url = "http://200.136.203.180:8080/v1/";
-    String url = "http://192.168.1.40:8080/v1/";
+    String url = "http://192.168.0.8:8080/v1/";
 
         @POST("appointmentBook/create")
         Call<AppointmentBook> addAppointment(@Body AppointmentBook appointmentBook);

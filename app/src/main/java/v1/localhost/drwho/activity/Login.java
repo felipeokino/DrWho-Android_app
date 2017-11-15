@@ -48,7 +48,7 @@ public class Login extends AppCompatActivity {
         EditText passwd = (EditText) findViewById(R.id.edtPasswd);
             if(user.getText().toString().equals("admin")){
                 if(passwd.getText().toString().equals("1234")){
-                    Intent intent = new Intent(this, Initial.class);
+                    Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                 }
             }else {

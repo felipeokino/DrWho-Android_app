@@ -64,6 +64,16 @@
                     android:layout_alignTop="@+id/btnProfile"
                     android:layout_alignParentEnd="true" />
 
+                <Button
+                    android:id="@+id/btnSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="29dp"
+                    android:layout_marginTop="26dp"
+                    android:text="TEMP Seacrh Doctor"
+                    android:layout_below="@+id/btnProfile"
+                    android:layout_alignParentStart="true" />
+
             </RelativeLayout>
         </ScrollView>
 </android.support.constraint.ConstraintLayout>

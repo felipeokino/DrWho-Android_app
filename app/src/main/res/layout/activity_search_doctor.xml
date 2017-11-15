@@ -39,7 +39,7 @@
             android:layout_alignBottom="@+id/edtSearch" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/lvDoctors"
+            android:id="@+id/recyclerViewDoctors"
             android:layout_width="match_parent"
             android:layout_height="340dp"
             android:layout_alignParentBottom="true"
