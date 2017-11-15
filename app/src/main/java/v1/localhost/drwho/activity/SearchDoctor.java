@@ -79,7 +79,7 @@ public class SearchDoctor extends AppCompatActivity {
                     doctors = response.body().getResults();
                     doctorAdapter.notifyDataSetChanged();
 
-                    Toast.makeText(getBaseContext(), "Erro: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                 }
 
                 @Override

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/cardPurple"
+    android:id="@+id/parent"
+    app:cardCornerRadius="8dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="2dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="AppointmentDay"/>
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Name"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/txtDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Doctor Name"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/txtSpecs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Specialization"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+

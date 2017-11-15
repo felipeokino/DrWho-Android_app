@@ -9,13 +9,13 @@ import v1.localhost.drwho.models.Doctor;
  */
 
 public class DoctorResponse {
-    private ArrayList<Doctor> results;
+    private ArrayList<Doctor> content;
 
     public ArrayList<Doctor> getResults() {
-        return results;
+        return content;
     }
 
     public void setResults(ArrayList<Doctor> results) {
-        this.results = results;
+        this.content = results;
     }
 }
