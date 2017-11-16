@@ -47,9 +47,23 @@ public class SearchDoctor extends AppCompatActivity {
         doctors = new ArrayList<>();
 
 
-
         all = (RadioButton) findViewById(R.id.rbAllDoctor);
+        all.setChecked(true);
         specs = (RadioButton) findViewById(R.id.rbSpecs);
+
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                specs.setChecked(false);
+            }
+        });
+        specs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setChecked(false);
+            }
+        });
+
 
         // Busca todos os doutores
 
@@ -57,7 +71,12 @@ public class SearchDoctor extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                SearchAll();
+                if(all.isSelected()){
+                    SearchAll();
+                }else {
+
+                }
+
 
             }
 
@@ -78,7 +97,7 @@ public class SearchDoctor extends AppCompatActivity {
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
 
-                    Toast.makeText(getBaseContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -89,15 +108,12 @@ public class SearchDoctor extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(getBaseContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        int size = doctors.size();
-        Toast.makeText(getBaseContext(), "List Size: " + size, Toast.LENGTH_LONG).show();
     }
 
     @Override

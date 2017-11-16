@@ -18,4 +18,8 @@ public class DoctorResponse {
     public void setResults(ArrayList<Doctor> results) {
         this.content = results;
     }
+
+    public int getSize(ArrayList<Doctor> results){
+        return results.size();
+    }
 }
