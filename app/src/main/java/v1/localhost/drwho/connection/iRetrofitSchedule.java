@@ -14,7 +14,7 @@ import v1.localhost.drwho.models.AppointmentSchedule;
 
 public interface iRetrofitSchedule {
 
-    String url = "http://192.168.1.40:8080/v1/";
+    String url = "http://192.168.0.8:8080/v1/";
     @POST("appointmentSchedule/create")
     Call <AppointmentSchedule> MyAppointments();
 

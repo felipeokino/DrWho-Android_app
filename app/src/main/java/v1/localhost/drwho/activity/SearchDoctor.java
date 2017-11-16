@@ -2,6 +2,7 @@ package v1.localhost.drwho.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
@@ -33,6 +34,7 @@ public class SearchDoctor extends AppCompatActivity {
     RadioButton specs;
     Spinner spinner;
     private DoctorAdapter doctorAdapter;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +43,8 @@ public class SearchDoctor extends AppCompatActivity {
         setTitle("Search");
 
         InitializeComponent();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
         doctors = new ArrayList<>();
-        doctorAdapter = new DoctorAdapter(doctors, getApplicationContext());
-
-        recyclerView.setAdapter(doctorAdapter);
-        doctorAdapter.notifyDataSetChanged();
 
 
 
@@ -77,6 +73,9 @@ public class SearchDoctor extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
                     doctors = response.body().getResults();
+                    recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
+                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext());
+                    recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
 
                     Toast.makeText(getBaseContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
