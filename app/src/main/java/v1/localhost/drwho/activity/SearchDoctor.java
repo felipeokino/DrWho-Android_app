@@ -1,13 +1,15 @@
 package v1.localhost.drwho.activity;
 
+import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -15,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +38,7 @@ public class SearchDoctor extends AppCompatActivity {
     Spinner spinner;
     private DoctorAdapter doctorAdapter;
     RecyclerView recyclerView;
+    Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +46,15 @@ public class SearchDoctor extends AppCompatActivity {
         setContentView(R.layout.activity_search_doctor);
         setTitle("Search");
 
+        Calendar calendar = Calendar.getInstance();
+
         InitializeComponent();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
         doctors = new ArrayList<>();
 
-
         all = (RadioButton) findViewById(R.id.rbAllDoctor);
         all.setChecked(true);
+        spinner.setVisibility(View.INVISIBLE);
         specs = (RadioButton) findViewById(R.id.rbSpecs);
 
         all.setOnClickListener(new View.OnClickListener() {
@@ -61,23 +67,35 @@ public class SearchDoctor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 all.setChecked(false);
+                spinner.setVisibility(View.VISIBLE);
+
             }
         });
 
+        //TODO Adapter utilizado pelo spinner de especializações
+        String[] specs = new String[] {"mortologia", "nutricionista", "oncologista", "pediatra"};
 
-        // Busca todos os doutores
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specs);
+        spinner.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
+
+
+        //TODO Busca todos os doutores
 
         image.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if(all.isSelected()){
-                    SearchAll();
+                if(all.isChecked()){
+                    CreateDatePicker();
+                    //SearchAll();
                 }else {
+                    String specialization;
+                    specialization = spinner.getSelectedItem().toString();
+                    SearchBySpecialization(specialization);
 
+                    Toast.makeText(getBaseContext(), "Selectioned Item: " + specialization, Toast.LENGTH_LONG).show();
                 }
-
-
             }
 
         });
@@ -110,7 +128,34 @@ public class SearchDoctor extends AppCompatActivity {
         }
     }
 
+    public void SearchBySpecialization(String specialization){
+        try{
+            final iRetrofit specsDoctors = iRetrofit.retrofit.create(iRetrofit.class);
+            final Call<DoctorResponse> call = specsDoctors.getBySpecialization(specialization, 0, 20);
+            call.enqueue(new Callback<DoctorResponse>() {
+                @Override
+                public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
+                    doctors = response.body().getResults();
+                    recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
+                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext());
+                    recyclerView.setAdapter(doctorAdapter);
+                    doctorAdapter.notifyDataSetChanged();
 
+                    Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(Call<DoctorResponse> call, Throwable t) {
+                    Toast.makeText(getBaseContext(), "Erro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(getBaseContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+        }
+
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -135,9 +180,29 @@ public class SearchDoctor extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void InitializeComponent(){
         search = (EditText) findViewById(R.id.edtSearch);
         image = (ImageButton)findViewById(R.id.imgBtnSearch);
         spinner = (Spinner) findViewById(R.id.spSpecs);
     }
+
+    public void CreateDatePicker(){
+        int day, month, year;
+        calendar = Calendar.getInstance();
+
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH) + 1;
+        year = calendar.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month +1;
+            }
+        }, year, month, day);
+        datePickerDialog.show();
+
+    }
+
 }

@@ -9,6 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import v1.localhost.drwho.classes.DoctorResponse;
 import v1.localhost.drwho.models.AppointmentBook;
 import v1.localhost.drwho.models.AppointmentSchedule;
@@ -23,7 +24,7 @@ public interface iRetrofit {
 
     //String url = "http://192.168.0.7:8080/v1/";
     //String url = "http://200.136.203.180:8080/v1/";
-    String url = "http://192.168.0.8:8080/v1/";
+    String url = "http://186.219.82.15:8080/v1/";
 
         @POST("appointmentBook/create")
         Call<AppointmentBook> addAppointment(@Body AppointmentBook appointmentBook);
@@ -58,8 +59,8 @@ public interface iRetrofit {
         @GET("doctor/retrieveAllDoctors?page=0&size=20")
         Call <DoctorResponse> getAllDoctors();
 
-        @GET("doctor/retrieveBySpecialization?page=0&size=20")
-        Call <DoctorResponse> getBySpecialization();
+        @GET("doctor/retrieveBySpecialization?")
+        Call <DoctorResponse> getBySpecialization(@Query("specialization") String specialization, @Query("page")int page, @Query("size") int size);
 
 
     //----------------------------------------------------------------------------------------------

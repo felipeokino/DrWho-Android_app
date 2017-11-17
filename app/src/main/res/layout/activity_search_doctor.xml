@@ -65,12 +65,12 @@
 
         <Spinner
             android:id="@+id/spSpecs"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:layout_alignBottom="@+id/rbSpecs"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_below="@+id/rbSpecs"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/rbSpecs"
-            android:visibility="gone" />
+            android:layout_marginTop="12dp" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
