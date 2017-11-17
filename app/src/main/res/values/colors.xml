@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4527A0</color>
-    <color name="colorPrimaryDark">#1A237E</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#00796B</color>
+    <color name="colorPrimaryDark">#004D40</color>
+    <color name="colorAccent">#004D40</color>
     <color name="colorLabelLogin">#424242</color>
     <color name="white">#FFFFFF</color>
 
@@ -14,7 +14,7 @@
     <color name="divider">#BDBDBD</color>
     <color name="cardLightPurple">#EDE7F6</color>
     <color name="cardRed">#F48FB1</color>
-    <color name="cardPurple">#CE93D8</color>
+    <color name="cardPurple">#4DB6AC</color>
     <color name="cardRose">#EF9A9A</color>
     <color name="cardLightBlue">#90CAF9</color>
     <color name="cardBlue">#80CBC4</color>

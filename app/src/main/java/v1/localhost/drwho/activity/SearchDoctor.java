@@ -53,7 +53,7 @@ public class SearchDoctor extends AppCompatActivity {
 
         InitializeComponent();
         CreateDatePicker();
-        SearchAll();
+        SearchAll(false);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
         doctors = new ArrayList<>();
 
@@ -93,8 +93,7 @@ public class SearchDoctor extends AppCompatActivity {
             public void onClick(View v) {
                 if(all.isChecked() || all.isSelected()){
                     //Toast.makeText(getBaseContext(), date.toString(), Toast.LENGTH_LONG).show();
-
-                    SearchAll();
+                    SearchAll(true);
                 }else {
                     String specialization;
                     specialization = spinner.getSelectedItem().toString();
@@ -107,7 +106,7 @@ public class SearchDoctor extends AppCompatActivity {
         });
     }
 
-    public void SearchAll(){
+    public void SearchAll(final boolean show){
         try{
             final iRetrofit allDoctors = iRetrofit.retrofit.create(iRetrofit.class);
             final Call<DoctorResponse> call = allDoctors.getAllDoctors();
@@ -120,8 +119,8 @@ public class SearchDoctor extends AppCompatActivity {
                     doctorAdapter = new DoctorAdapter(doctors, getApplicationContext());
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
-
-                    Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
+                    if(show)
+                        Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
