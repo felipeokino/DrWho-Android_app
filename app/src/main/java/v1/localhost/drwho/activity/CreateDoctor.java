@@ -157,7 +157,7 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
     public AppointmentBook CreateAppointment(){
 
         appointmentBook = GetAppointmentBookObject(lastId);
-        iRetrofitAppointmentBook retrofitAppointmentBook = iRetrofitAppointmentBook.retrofit.create(iRetrofitAppointmentBook.class);
+        iRetrofit retrofitAppointmentBook = iRetrofit.retrofit.create(iRetrofit.class);
         Call<AppointmentBook> call = retrofitAppointmentBook.addAppointment(appointmentBook);
         call.enqueue(new Callback<AppointmentBook>() {
             @Override

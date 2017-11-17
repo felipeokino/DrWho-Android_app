@@ -16,8 +16,11 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +42,8 @@ public class SearchDoctor extends AppCompatActivity {
     private DoctorAdapter doctorAdapter;
     RecyclerView recyclerView;
     Calendar calendar;
+    Date date;
+    int day, month, year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +51,9 @@ public class SearchDoctor extends AppCompatActivity {
         setContentView(R.layout.activity_search_doctor);
         setTitle("Search");
 
-        Calendar calendar = Calendar.getInstance();
-
         InitializeComponent();
+        CreateDatePicker();
+        SearchAll();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
         doctors = new ArrayList<>();
 
@@ -86,9 +91,10 @@ public class SearchDoctor extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(all.isChecked()){
-                    CreateDatePicker();
-                    //SearchAll();
+                if(all.isChecked() || all.isSelected()){
+                    //Toast.makeText(getBaseContext(), date.toString(), Toast.LENGTH_LONG).show();
+
+                    SearchAll();
                 }else {
                     String specialization;
                     specialization = spinner.getSelectedItem().toString();
@@ -173,7 +179,6 @@ public class SearchDoctor extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -187,22 +192,32 @@ public class SearchDoctor extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spSpecs);
     }
 
+
+    public void GetDate(int year, int month, int dayOfMonth){
+        month = month + 1;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy/mm/dd");
+
+    }
+
     public void CreateDatePicker(){
-        int day, month, year;
+
         calendar = Calendar.getInstance();
 
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        month = calendar.get(Calendar.MONTH) + 1;
-        year = calendar.get(Calendar.YEAR);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePickerDialog;
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month +1;
+                SimpleDateFormat format = new SimpleDateFormat("yyyy/mm/dd");
+                try {
+                    date = format.parse(year + "/" + month + "/" + dayOfMonth);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }, year, month, day);
         datePickerDialog.show();
-
     }
+
 
 }

@@ -15,11 +15,7 @@ import v1.localhost.drwho.models.AppointmentSchedule;
 public interface iRetrofitSchedule {
 
     String url = "http://186.219.82.15:8080/v1/";
-    @POST("appointmentSchedule/create")
-    Call <AppointmentSchedule> MyAppointments();
 
-    @GET("appointmentSchedule/retrieveAllAppointmentSchedules?page=0&&size=20")
-    Call<ScheduleResponse> GetAllSchedules();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(url)

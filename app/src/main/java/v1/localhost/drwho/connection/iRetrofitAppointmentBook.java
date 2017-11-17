@@ -20,14 +20,7 @@ public interface iRetrofitAppointmentBook {
 
     String url = "http://186.219.82.15:8080/v1/";
 
-    @POST("appointmentBook/create")
-    Call<AppointmentBook> addAppointment(@Body AppointmentBook appointmentBook);
 
-    @GET("appointmentBook/retrieveById?id={id}")
-    Call<AppointmentBook> getById(@Path("id") long id);
-
-    @GET("appointmentBook/retrieveAllAppointmentBooks?page=0&size=20")
-    Call<List<AppointmentBook>> getAppointments();
 
      Retrofit retrofit = new Retrofit.Builder()
     .baseUrl(url)

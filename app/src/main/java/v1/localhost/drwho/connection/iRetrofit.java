@@ -11,6 +11,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import v1.localhost.drwho.classes.DoctorResponse;
+import v1.localhost.drwho.classes.ScheduleResponse;
 import v1.localhost.drwho.models.AppointmentBook;
 import v1.localhost.drwho.models.AppointmentSchedule;
 import v1.localhost.drwho.models.Client;
@@ -24,16 +25,8 @@ public interface iRetrofit {
 
     //String url = "http://192.168.0.7:8080/v1/";
     //String url = "http://200.136.203.180:8080/v1/";
-    String url = "http://186.219.82.15:8080/v1/";
+    String url = "http://10.115.75.62:8080/v1/";
 
-        @POST("appointmentBook/create")
-        Call<AppointmentBook> addAppointment(@Body AppointmentBook appointmentBook);
-
-        @GET("appointmentBook/retrieveById?id={id}")
-        Call<AppointmentBook> getById(@Path("id") long id);
-
-        @GET("appointmentBook/retrieveAllAppointmentBooks?page=0&size=20")
-        Call<List<AppointmentBook>> getAppointments();
 
     //----------------------------------------------------------------------------------------------
 
@@ -68,8 +61,26 @@ public interface iRetrofit {
 
     //TODO Appointment Schedule
 
-    @POST("AppointmentSchedule/create")
+    @POST("appointmentSchedule/create")
     Call <AppointmentSchedule> MyAppointments();
+
+    @GET("appointmentSchedule/retrieveAllAppointmentSchedules?page=0&&size=20")
+    Call<ScheduleResponse> GetAllSchedules();
+
+    //----------------------------------------------------------------------------------------------
+
+
+    //TODO Appointment Book
+
+    @POST("appointmentBook/create")
+    Call<AppointmentBook> addAppointment(@Body AppointmentBook appointmentBook);
+
+    @GET("appointmentBook/retrieveById?id={id}")
+    Call<AppointmentBook> getById(@Path("id") long id);
+
+    @GET("appointmentBook/retrieveAllAppointmentBooks?page=0&size=20")
+    Call<List<AppointmentBook>> getAppointments();
+
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(url)

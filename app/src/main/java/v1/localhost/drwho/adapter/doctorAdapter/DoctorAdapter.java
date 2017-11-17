@@ -1,5 +1,7 @@
 package v1.localhost.drwho.adapter.doctorAdapter;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -7,13 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import v1.localhost.drwho.R;
 import v1.localhost.drwho.activity.CreateDoctor;
+import v1.localhost.drwho.activity.SearchDoctor;
 import v1.localhost.drwho.models.Doctor;
 
 /**
@@ -22,7 +28,8 @@ import v1.localhost.drwho.models.Doctor;
 
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHolder> {
     private List<Doctor> doctors;
-    private Context context;
+            Context context;
+    private Calendar calendar;
 
     public DoctorAdapter(ArrayList<Doctor> _doctors, Context context) {
         this.doctors = _doctors;
@@ -48,9 +55,11 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
         holder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            Intent intent = new Intent(context, CreateDoctor.class);
-            intent.putExtra("doctorExtra", CreateDoctor.class);
-            context.startActivity(intent);
+                /*Intent intent = new Intent(context, CreateDoctor.class);
+                //intent.putExtra("doctorExtra", CreateDoctor.class);
+                context.startActivity(intent);*/
+                Toast.makeText(context, "Nao funciona otario", Toast.LENGTH_LONG).show();
+
             }
         });
     }
@@ -73,6 +82,4 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
             txtSpecs = (TextView) itemView.findViewById(R.id.txtSpecs);
         }
     }
-
-
 }
