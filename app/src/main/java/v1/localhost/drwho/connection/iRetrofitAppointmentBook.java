@@ -18,7 +18,7 @@ import v1.localhost.drwho.models.AppointmentBook;
 public interface iRetrofitAppointmentBook {
 
 
-    String url = "http://186.219.82.15:8080/v1/";
+    String url = "http://10.115.73.40:8080/v1/";
 
 
 

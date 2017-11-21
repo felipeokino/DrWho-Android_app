@@ -25,7 +25,7 @@ public interface iRetrofit {
 
     //String url = "http://192.168.0.7:8080/v1/";
     //String url = "http://200.136.203.180:8080/v1/";
-    String url = "http://10.115.75.62:8080/v1/";
+    String url = "http://10.115.73.40:8080/v1/";
 
 
     //----------------------------------------------------------------------------------------------
@@ -37,6 +37,9 @@ public interface iRetrofit {
 
         @GET("client/retrieveAllClients")
         Call<List<Client>> getUsers ();
+
+        @GET("client/retrieveById?")
+        Call<Client> getClientById(@Query("id") long id);
 
     //----------------------------------------------------------------------------------------------
 

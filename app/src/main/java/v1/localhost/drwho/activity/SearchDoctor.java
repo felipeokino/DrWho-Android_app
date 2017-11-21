@@ -27,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import v1.localhost.drwho.adapter.doctorAdapter.DoctorAdapter;
 import v1.localhost.drwho.classes.DoctorResponse;
+import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.Doctor;
 import v1.localhost.drwho.R;
 import v1.localhost.drwho.connection.iRetrofit;
@@ -92,7 +93,7 @@ public class SearchDoctor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(all.isChecked() || all.isSelected()){
-                    //Toast.makeText(getBaseContext(), date.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), SingletonUser.getInstance().getUsuario().getName(), Toast.LENGTH_LONG).show();
                     SearchAll(true);
                 }else {
                     String specialization;
