@@ -15,10 +15,9 @@ public class AppointmentSchedule {
     private Date startTimeScheduled;
     private Date endTimeScheduled;
 
-    public AppointmentSchedule(long id, Client client, Doctor doctor, Date dateSchedule,
+    public AppointmentSchedule(Client client, Doctor doctor, Date dateSchedule,
                                Date startTimeScheduled, Date endTimeScheduled, boolean isDeleted) {
 
-        this.id = id;
         this.client = client;
         this.doctor = doctor;
         this.dateSchedule = dateSchedule;

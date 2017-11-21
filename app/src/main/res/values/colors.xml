@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#004D40</color>
     <color name="colorAccent">#004D40</color>
     <color name="colorLabelLogin">#424242</color>
+    <color name="colorBackground">#e0f2f1</color>
     <color name="white">#FFFFFF</color>
 
     <color name="primary_light">#FF5252</color>
@@ -18,7 +19,7 @@
     <color name="cardRose">#EF9A9A</color>
     <color name="cardLightBlue">#90CAF9</color>
     <color name="cardBlue">#80CBC4</color>
-    <color name="cardGreen">#B2FF59</color>
+    <color name="cardGreen">#b2ff59</color>
     <color name="cardYellow">#FFE082</color>
     <color name="cardOrange">#FFCC80</color>
     <color name="cardDeepOrange">#FFAB91</color>

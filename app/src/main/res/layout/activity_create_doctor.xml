@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FBE9E7"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,13 +25,13 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
             android:text="Name"
             android:textColor="#455A64"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/tvCpf"
@@ -128,72 +127,56 @@
             android:textColor="#455A64"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tvPassword2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_alignBaseline="@+id/edtPasswd2"
-            android:layout_alignBottom="@+id/edtPasswd2"
-            android:layout_alignStart="@+id/tvPassword"
-            android:text="Repeat Password"
-            android:textColor="#455A64"
-            android:textSize="16sp" />
-
-
-
 
         <EditText
             android:id="@+id/edtName"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
             android:layout_alignBaseline="@+id/tvName"
             android:layout_alignBottom="@+id/tvName"
-            android:layout_alignStart="@+id/edtCpf"
-            android:ems="10"
-            android:inputType="textPersonName" />
+            android:layout_toEndOf="@+id/btnCancel" />
 
         <EditText
             android:id="@+id/edtCpf"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edtAddress"
-            android:layout_below="@+id/edtName"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_below="@+id/edtName"
+            android:layout_alignStart="@+id/edtName" />
 
         <EditText
             android:id="@+id/edtAddress"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edtBirthday"
-            android:layout_below="@+id/edtCrm"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_below="@+id/edtCrm"
+            android:layout_alignStart="@+id/edtCrm" />
 
         <EditText
             android:id="@+id/edtCrm"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edtBirthday"
-            android:layout_below="@+id/edtCpf"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_below="@+id/edtCpf"
+            android:layout_alignStart="@+id/edtCpf" />
 
 
         <EditText
             android:id="@+id/edtBirthday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edtEmail"
-            android:layout_below="@+id/edtPhone"
+            android:layout_width="230dp"            android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="date" />
+            android:inputType="date"
+            android:layout_below="@+id/edtPhone"
+            android:layout_alignStart="@+id/edtPhone" />
 
         <EditText
             android:id="@+id/edtSpecs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="230dp"            android:layout_height="wrap_content"
             android:layout_alignStart="@+id/edtBirthday"
             android:layout_below="@+id/edtBirthday"
             android:layout_centerVertical="true"
@@ -203,8 +186,7 @@
 
         <EditText
             android:id="@+id/edtPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="230dp"            android:layout_height="wrap_content"
             android:layout_alignStart="@+id/edtAddress"
             android:layout_below="@+id/edtAddress"
             android:ems="10"
@@ -212,52 +194,41 @@
 
         <EditText
             android:id="@+id/edtEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
             android:layout_below="@+id/edtSpecs"
-            android:layout_alignStart="@+id/edtPasswd" />
+            android:layout_alignStart="@+id/edtSpecs" />
 
         <EditText
             android:id="@+id/edtPasswd"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberPassword"
             android:layout_below="@+id/edtEmail"
-            android:layout_alignStart="@+id/edtPasswd2" />
-
-        <EditText
-            android:id="@+id/edtPasswd2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:ems="10"
-            android:inputType="numberPassword"
-            android:layout_below="@+id/edtPasswd"
-            android:layout_toEndOf="@+id/btnCancel" />
-
+            android:layout_alignStart="@+id/edtEmail" />
 
 
         <Button
             android:id="@+id/btnDone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/edtPasswd2"
-            android:layout_alignParentBottom="true"
-            android:background="@color/cardPurple"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
             android:textColor="@color/white"
-            android:layout_marginEnd="25dp"
-            android:text="Done" />
+            android:text="Done"
+            android:layout_marginEnd="33dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/edtPasswd" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/tvCpf"
-            android:background="@color/cardPurple"
+            android:background="@color/colorPrimary"
             android:textColor="@color/white"
             android:text="Cancel" />
 

@@ -22,7 +22,6 @@
         <activity android:name=".activity.ClientDoctor" />
         <activity android:name=".activity.CreateUser" />
         <activity android:name=".activity.CreateDoctor" />
-        <activity android:name=".activity.ChooseDay" />
         <activity android:name=".activity.SearchDoctor" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.ScheduleActivity" />

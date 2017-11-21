@@ -52,7 +52,6 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
     public void Done(View view) {
         //ValidarCampos();
         try{
-            if(ValidarSenha()){
                 AppointmentBook appointmentBook = CreateAppointment();
                 doctor = GetDoctorObject(appointmentBook);
 
@@ -61,14 +60,13 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
                 call.enqueue(new Callback<Doctor>() {
                     @Override
                     public void onResponse(Call<Doctor> call, Response<Doctor> response) {
-                        //CreateAppointment();
                         int codeDoctor = response.code();
 
                         if (codeDoctor == 201){
                             Toast.makeText(getBaseContext(), "Cadastro efetuado com sucesso: " + String.valueOf(codeDoctor),
                                     Toast.LENGTH_LONG).show();
                         }else {
-                            Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(codeDoctor),
+                            Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(codeDoctor) + response.message(),
                                     Toast.LENGTH_LONG).show();
                         }
                     }
@@ -80,7 +78,6 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
 
                     }
                 });
-            }
 
 
         }catch (Exception e){
@@ -93,7 +90,7 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
         startActivity(intent);
     }
 
-    public boolean ValidarCampos(){
+    public boolean ValidateFields(){
         if(name.getText().equals(null))
             if (cpf.getText().equals(null))
                 if(crm.getText().equals(null))
@@ -109,15 +106,6 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
         return false;
     }
 
-    public boolean ValidarSenha(){
-        /*if(passwd.getText().equals(passwd2))
-            return true;
-        else{
-            Toast.makeText(getBaseContext(), "Senhas nao conferem", Toast.LENGTH_LONG).show();
-            return false;}*/
-        return true;
-    }
-
     public void InitializeComponents(){
         name = (EditText)findViewById(R.id.edtName);
         cpf = (EditText)findViewById(R.id.edtCpf);
@@ -128,7 +116,6 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
         specialization = (EditText)findViewById(R.id.edtSpecs);
         email = (EditText)findViewById(R.id.edtEmail);
         passwd = (EditText)findViewById(R.id.edtPasswd);
-        passwd2 = (EditText)findViewById(R.id.edtPasswd2);
 
         cancel = (Button) findViewById(R.id.btnCancel);
         done = (Button) findViewById(R.id.btnDone);

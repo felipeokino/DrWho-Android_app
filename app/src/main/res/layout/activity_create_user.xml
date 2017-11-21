@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBE9E7"
     tools:context="v1.localhost.drwho.activity.CreateUser">
 
     <RelativeLayout
@@ -62,29 +61,30 @@
             android:id="@+id/edtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
             android:layout_alignBaseline="@+id/tvName"
             android:layout_alignBottom="@+id/tvName"
-            android:layout_alignStart="@+id/edtCpf"
-            android:ems="10"
-            android:inputType="textPersonName" />
+            android:layout_alignStart="@+id/edtCpf" />
 
         <EditText
             android:id="@+id/edtCpf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edtAddress"
-            android:layout_below="@+id/edtName"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_below="@+id/edtName"
+            android:layout_toEndOf="@+id/btnCancel"
+            android:layout_marginStart="10dp" />
 
         <EditText
             android:id="@+id/edtAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edtBirthday"
-            android:layout_below="@+id/edtCpf"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_below="@+id/edtCpf"
+            android:layout_alignStart="@+id/edtCpf" />
 
         <EditText
             android:id="@+id/edtBirthday"
@@ -93,7 +93,7 @@
             android:ems="10"
             android:inputType="date"
             android:layout_below="@+id/edtPhone"
-            android:layout_alignStart="@+id/edtEmail" />
+            android:layout_alignStart="@+id/edtPhone" />
 
         <EditText
             android:id="@+id/edtPhone"
@@ -143,7 +143,7 @@
             android:ems="10"
             android:inputType="textEmailAddress"
             android:layout_below="@+id/edtBirthday"
-            android:layout_alignStart="@+id/edtPasswd" />
+            android:layout_alignStart="@+id/edtBirthday" />
 
         <EditText
             android:id="@+id/edtPasswd"
@@ -152,50 +152,28 @@
             android:ems="10"
             android:inputType="numberPassword"
             android:layout_below="@+id/edtEmail"
-            android:layout_alignStart="@+id/edtPasswd2" />
+            android:layout_alignStart="@+id/edtEmail" />
 
-        <EditText
-            android:id="@+id/edtPasswd2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberPassword"
-            android:layout_below="@+id/edtPasswd"
-            android:layout_toEndOf="@+id/tvPassword2"
-            android:layout_marginStart="13dp" />
-
-        <TextView
-            android:id="@+id/tvPassword2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/edtPasswd2"
-            android:layout_alignBottom="@+id/edtPasswd2"
-            android:layout_alignStart="@+id/tvPassword"
-            android:text="Repeat Password"
-            android:textColor="#455A64"
-            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/edtPasswd"
+            android:layout_alignParentBottom="true"
             android:layout_marginEnd="32dp"
+            android:background="@color/colorPrimary"
             android:text="Done"
-            android:layout_alignBaseline="@+id/btnCancel"
-            android:layout_alignBottom="@+id/btnCancel"
-            android:textColor="@color/white"
-            android:background="@color/cardPurple"
-            android:layout_alignEnd="@+id/edtPasswd2" />
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:background="@color/cardPurple"
-            android:text="Cancel"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/tvCpf"
-            android:layout_marginBottom="23dp" />
+            android:background="@color/colorPrimary"
+            android:text="Cancel"
+            android:textColor="@color/white" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

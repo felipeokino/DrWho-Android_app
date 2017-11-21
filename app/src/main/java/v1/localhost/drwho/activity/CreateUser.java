@@ -18,8 +18,9 @@ import v1.localhost.drwho.connection.iRetrofit;
 public class CreateUser extends AppCompatActivity {
 
     Button cancel, done;
-    EditText name, cpf, crm, address, phone, birthday, specialization, email, passwd, passwd2;
+    EditText name, cpf, crm, address, phone, birthday, specialization, email, passwd;
 
+    //TODO
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,6 @@ public class CreateUser extends AppCompatActivity {
 
         }
 
-
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -85,7 +85,7 @@ public class CreateUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public boolean ValidarCampos(){
+    public boolean ValidateFields(){
         if(name.getText().equals(null))
             if (cpf.getText().equals(null))
                 if(crm.getText().equals(null))
@@ -95,8 +95,7 @@ public class CreateUser extends AppCompatActivity {
                                 if(specialization.getText().equals(null))
                                     if(email.getText().equals(null))
                                         if(passwd.getText().equals(null))
-                                            if(passwd2.getText().equals(null))
-                                                return true;
+                                            return true;
 
         return false;
     }
@@ -110,7 +109,6 @@ public class CreateUser extends AppCompatActivity {
         birthday = (EditText)findViewById(R.id.edtBirthday);
         email = (EditText)findViewById(R.id.edtEmail);
         passwd = (EditText)findViewById(R.id.edtPasswd);
-        passwd2 = (EditText)findViewById(R.id.edtPasswd2);
 
         cancel = (Button) findViewById(R.id.btnCancel);
         done = (Button) findViewById(R.id.btnDone);

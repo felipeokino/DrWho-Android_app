@@ -15,11 +15,19 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import v1.localhost.drwho.R;
 import v1.localhost.drwho.activity.CreateDoctor;
 import v1.localhost.drwho.activity.SearchDoctor;
+import v1.localhost.drwho.connection.iRetrofit;
+import v1.localhost.drwho.login.SingletonUser;
+import v1.localhost.drwho.models.AppointmentSchedule;
 import v1.localhost.drwho.models.Doctor;
 
 /**
@@ -29,11 +37,12 @@ import v1.localhost.drwho.models.Doctor;
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHolder> {
     private List<Doctor> doctors;
             Context context;
-    private Calendar calendar;
+    private Date date;
 
-    public DoctorAdapter(ArrayList<Doctor> _doctors, Context context) {
+    public DoctorAdapter(ArrayList<Doctor> _doctors, Context context, Date date) {
         this.doctors = _doctors;
         this.context = context;
+        this.date = date;
     }
 
     @Override
@@ -48,6 +57,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Doctor doctor = doctors.get(position);
+        final AppointmentSchedule appointmentSchedule = new AppointmentSchedule(SingletonUser.getInstance().getUsuario(), doctor, date, null, null, false);
 
         holder.txtName.setText(doctor.getName());
         holder.txtSpecs.setText(doctor.getSpecialization());
@@ -55,10 +65,31 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
         holder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent intent = new Intent(context, CreateDoctor.class);
-                //intent.putExtra("doctorExtra", CreateDoctor.class);
-                context.startActivity(intent);*/
-                Toast.makeText(context, "Nao funciona otario", Toast.LENGTH_LONG).show();
+                try {
+                    iRetrofit createAppointment = iRetrofit.retrofit.create(iRetrofit.class);
+                    Call<AppointmentSchedule> call = createAppointment.createAppointment(appointmentSchedule);
+                    call.enqueue(new Callback<AppointmentSchedule>() {
+                        @Override
+                        public void onResponse(Call<AppointmentSchedule> call, Response<AppointmentSchedule> response) {
+                            int codeDoctor = response.code();
+
+                            if (codeDoctor == 201){
+                                Toast.makeText(context, "Consulta marcada com sucesso: " + String.valueOf(codeDoctor),
+                                        Toast.LENGTH_LONG).show();
+                            }else {
+                                Toast.makeText(context, "Falha: " + String.valueOf(codeDoctor),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AppointmentSchedule> call, Throwable t) {
+
+                        }
+                    });
+                }catch (Exception e){
+                    Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
 
             }
         });

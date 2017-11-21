@@ -14,7 +14,7 @@ import v1.localhost.drwho.models.AppointmentSchedule;
 
 public interface iRetrofitSchedule {
 
-    String url = "http://10.115.73.40:8080/v1/";
+    String url = "http://200.136.247.169:8080/v1/";
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()

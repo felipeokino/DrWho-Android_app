@@ -117,7 +117,7 @@ public class SearchDoctor extends AppCompatActivity {
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
                     doctors = response.body().getResults();
                     recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
-                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext());
+                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), date);
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
                     if(show)
@@ -143,7 +143,7 @@ public class SearchDoctor extends AppCompatActivity {
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
                     doctors = response.body().getResults();
                     recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
-                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext());
+                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), date);
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
 
@@ -210,7 +210,7 @@ public class SearchDoctor extends AppCompatActivity {
                 month = month +1;
                 SimpleDateFormat format = new SimpleDateFormat("yyyy/mm/dd");
                 try {
-                    date = format.parse(year + "/" + month + "/" + dayOfMonth);
+                    date = format.parse(year + "-" + month + "-" + dayOfMonth);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

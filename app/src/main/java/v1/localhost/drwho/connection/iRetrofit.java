@@ -25,7 +25,7 @@ public interface iRetrofit {
 
     //String url = "http://192.168.0.7:8080/v1/";
     //String url = "http://200.136.203.180:8080/v1/";
-    String url = "http://10.115.73.40:8080/v1/";
+    String url = "http://200.136.247.169:8080/v1/";
 
 
     //----------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ public interface iRetrofit {
     //TODO Appointment Schedule
 
     @POST("appointmentSchedule/create")
-    Call <AppointmentSchedule> MyAppointments();
+    Call <AppointmentSchedule> createAppointment(@Body AppointmentSchedule appointmentSchedule);
 
     @GET("appointmentSchedule/retrieveAllAppointmentSchedules?page=0&&size=20")
     Call<ScheduleResponse> GetAllSchedules();
@@ -78,8 +78,8 @@ public interface iRetrofit {
     @POST("appointmentBook/create")
     Call<AppointmentBook> addAppointment(@Body AppointmentBook appointmentBook);
 
-    @GET("appointmentBook/retrieveById?id={id}")
-    Call<AppointmentBook> getById(@Path("id") long id);
+    @GET("appointmentBook/retrieveById?")
+    Call<AppointmentBook> getById(@Query("id") long id);
 
     @GET("appointmentBook/retrieveAllAppointmentBooks?page=0&size=20")
     Call<List<AppointmentBook>> getAppointments();

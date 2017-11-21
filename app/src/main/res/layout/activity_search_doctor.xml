@@ -17,26 +17,26 @@
             android:id="@+id/edtSearch"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="12dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="Search"
-            android:textSize="14sp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp" />
+            android:inputType="textPersonName"
+            android:textSize="14sp" />
 
         <ImageButton
             android:id="@+id/imgBtnSearch"
             style="@android:style/Widget.DeviceDefault.Light.ImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_alignBottom="@+id/edtSearch"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/edtSearch"
             android:adjustViewBounds="false"
             android:background="@color/cardPurple"
             android:elevation="5dp"
-            app:srcCompat="@drawable/ic_search_black_24dp"
-            android:layout_alignBottom="@+id/edtSearch" />
+            app:srcCompat="@drawable/ic_search_black_24dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewDoctors"
@@ -58,19 +58,19 @@
             android:id="@+id/rbSpecs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Specialization"
             android:layout_alignBaseline="@+id/rbAllDoctor"
             android:layout_alignBottom="@+id/rbAllDoctor"
-            android:layout_alignEnd="@+id/edtSearch" />
+            android:layout_alignEnd="@+id/edtSearch"
+            android:text="Specialization" />
 
         <Spinner
             android:id="@+id/spSpecs"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_below="@+id/rbSpecs"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="12dp" />
+            android:layout_below="@+id/rbSpecs"
+            android:layout_marginTop="12dp"
+            android:visibility="visible" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

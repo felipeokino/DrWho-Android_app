@@ -34,11 +34,16 @@ public class Login extends AppCompatActivity {
         newUser = (TextView) findViewById(R.id.tvNewUser);
         user = (EditText) findViewById(R.id.edtUser);
         passwd = (EditText) findViewById(R.id.edtPasswd);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*if(ValidateFields())
+                    CreateUserLogin(Long.parseLong(user.getText().toString()));
 
-                CreateUserLogin(Long.parseLong(user.getText().toString()));
+                else
+                    Toast.makeText(getBaseContext(), "Empty fields", Toast.LENGTH_LONG).show();*/
+                Next();
             }
         });
         newUser.setOnClickListener(new View.OnClickListener() {
@@ -47,9 +52,8 @@ public class Login extends AppCompatActivity {
                 NextNew(v);
             }
         });
-
-
     }
+
     public void Next(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -62,62 +66,34 @@ public class Login extends AppCompatActivity {
 
     public void CreateUserLogin(long id){
         try{
-            if(!ValidateFields()){
-                Toast.makeText(getBaseContext(), "Empty fields", Toast.LENGTH_LONG).show();
-                return;
-            }
-            final iRetrofit clients = iRetrofit.retrofit.create(iRetrofit.class);
-            final Call<Client> call = clients.getClientById(id);
-            call.enqueue(new Callback<Client>() {
-                @Override
-                public void onResponse(Call<Client> call, Response<Client> response) {
-                    if (response.code() == 200){
-                        client = response.body();
-                        SingletonUser.getInstance().setUsuario(client);
-                        Next();
-                        Login.super.finish();
-                    }else {
-                        Toast.makeText(getBaseContext(), "Erro: " + response.message(), Toast.LENGTH_LONG).show();
+                final iRetrofit clients = iRetrofit.retrofit.create(iRetrofit.class);
+                final Call<Client> call = clients.getClientById(id);
+                call.enqueue(new Callback<Client>() {
+                    @Override
+                    public void onResponse(Call<Client> call, Response<Client> response) {
+                        if (response.code() == 200){
+                            client = response.body();
+                            SingletonUser.getInstance().setUsuario(client);
+                            Next();
+                            Login.super.finish();
+                        }else {
+                            Toast.makeText(getBaseContext(), "Erro: " + response.message(), Toast.LENGTH_LONG).show();
+                        }
                     }
-
-                }
-
-                @Override
-                public void onFailure(Call<Client> call, Throwable t) {
-                    Toast.makeText(getBaseContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<Client> call, Throwable t) {
+                        Toast.makeText(getBaseContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
         }catch (Exception e){
             Toast.makeText(getBaseContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
     }
 
-    public void SearchUser(){
-        try {
-
-            iRetrofit getClient = iRetrofit.retrofit.create(iRetrofit.class);
-            Call<Client> call = getClient.getClientById(Long.parseLong(user.getText().toString()));
-            call.enqueue(new Callback<Client>() {
-                @Override
-                public void onResponse(Call<Client> call, Response<Client> response) {
-                    if(response.code() == 200){
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Client> call, Throwable t) {
-                }
-            });
-        }catch (Exception e){
-
-        }
-    }
     public boolean ValidateFields(){
-        if (user.getText().toString() != null)
-            if(passwd.getText().toString() != null)
-                return true;
-        return false;
+        if (user.getText().length() == 0)
+            if(passwd.getText().length() == 0)
+                return false;
+        return true;
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"> Dr WHo </string>
+    <string name="app_name"> Dr Who </string>
     <string name="login_name">Sign In</string>
     <string name="appointmentBook">My Appointments</string>
     <string name="appointmentSchedule">My Schedule</string>
