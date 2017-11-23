@@ -20,7 +20,6 @@ public class CreateUser extends AppCompatActivity {
     Button cancel, done;
     EditText name, cpf, crm, address, phone, birthday, specialization, email, passwd;
 
-    //TODO
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

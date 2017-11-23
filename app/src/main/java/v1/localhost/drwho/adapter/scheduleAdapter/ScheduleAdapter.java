@@ -1,7 +1,8 @@
-package v1.localhost.drwho.adapter.appointmentScheduleAdapter;
+package v1.localhost.drwho.adapter.scheduleAdapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import v1.localhost.drwho.R;
-import v1.localhost.drwho.activity.InfoSchedule;
-import v1.localhost.drwho.activity.ScheduleActivity;
+import v1.localhost.drwho.activity.MyAppointments;
 import v1.localhost.drwho.models.AppointmentSchedule;
 
 /**
@@ -22,11 +22,11 @@ import v1.localhost.drwho.models.AppointmentSchedule;
  */
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyViewHolder> {
-    private List<AppointmentSchedule> appointmentSchedules;
+    private ArrayList<AppointmentSchedule> appointmentSchedules;
     private Context context;
 
     public ScheduleAdapter(ArrayList<AppointmentSchedule> appointmentSchedules, Context context) {
-        this.appointmentSchedules = new ArrayList<>();
+        this.appointmentSchedules = appointmentSchedules;
         this.context = context;
     }
 
@@ -43,8 +43,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final AppointmentSchedule appointmentSchedule = appointmentSchedules.get(position);
 
-        //holder.txtName.setText(appointmentSchedule.getClient().getName());
-        holder.txtDay.setText(appointmentSchedule.getDateSchedule());
+        holder.txtName.setText(appointmentSchedule.getClient().getName());
+        holder.txtDay.setText(appointmentSchedule.getDateSchedule().toString());
         holder.txtDoctorName.setText(appointmentSchedule.getDoctor().getName());
         holder.txtSpecs.setText(appointmentSchedule.getDoctor().getSpecialization());
 
@@ -52,8 +52,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
             @Override
             public void onClick(View view) {
                 //TODO open appointmentSchedule;
-                Intent intent = new Intent(context, ScheduleActivity.class);
-                intent.putExtra("appointmentScheduleExtra", InfoSchedule.class);
+                Intent intent = new Intent(context, MyAppointments.class);
+                intent.putExtra("INFO_EXTRAS", (Parcelable) appointmentSchedule);
                 context.startActivity(intent);
             }
         });

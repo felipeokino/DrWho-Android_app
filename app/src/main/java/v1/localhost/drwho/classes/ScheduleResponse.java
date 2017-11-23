@@ -9,13 +9,17 @@ import v1.localhost.drwho.models.AppointmentSchedule;
  */
 
 public class ScheduleResponse {
-    private ArrayList<AppointmentSchedule> results;
+    private ArrayList<AppointmentSchedule> content;
 
     public ArrayList<AppointmentSchedule> getResults() {
-        return results;
+        return content;
     }
 
     public void setResults(ArrayList<AppointmentSchedule> results) {
-        this.results = results;
+        this.content = results;
+    }
+
+    public int getSize(ArrayList<AppointmentSchedule> results){
+        return results.size();
     }
 }

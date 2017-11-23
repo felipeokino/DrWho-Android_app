@@ -8,14 +8,14 @@ import java.util.Date;
 
 public class AppointmentSchedule {
     private long id;
-
-    private long client;
+    private long id_client;
+    private Client client;
     private Doctor doctor;
     private String dateSchedule;
     private String startTimeScheduled;
     private String endTimeScheduled;
 
-    public AppointmentSchedule(long client, Doctor doctor, String dateSchedule,
+    public AppointmentSchedule(Client client, Doctor doctor, String dateSchedule,
                                String startTimeScheduled, String endTimeScheduled, boolean isDeleted) {
 
         this.client = client;
@@ -25,7 +25,18 @@ public class AppointmentSchedule {
         this.endTimeScheduled = endTimeScheduled;
         this.isDeleted = isDeleted;
     }
+    public AppointmentSchedule(long id_client, Doctor doctor, String dateSchedule,
+                               String startTimeScheduled, String endTimeScheduled, boolean isDeleted) {
 
+        this.id_client = id_client;
+        this.doctor = doctor;
+        this.dateSchedule = dateSchedule;
+        this.startTimeScheduled = startTimeScheduled;
+        this.endTimeScheduled = endTimeScheduled;
+        this.isDeleted = isDeleted;
+    }
+
+    public AppointmentSchedule(){}
     private boolean isDeleted;
 
     public AppointmentSchedule(long id, Doctor doctor, String date, Object startTimeScheduled, Object endTimeScheduled, boolean isDeleted) {
@@ -39,11 +50,11 @@ public class AppointmentSchedule {
         this.id = id;
     }
 
-    public long getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(long client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 
@@ -87,6 +98,11 @@ public class AppointmentSchedule {
         isDeleted = deleted;
     }
 
+    public long getId_client() {
+        return id_client;
+    }
 
-
+    public void setId_client(long id_client) {
+        this.id_client = id_client;
+    }
 }
