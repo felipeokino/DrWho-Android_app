@@ -15,6 +15,7 @@ import java.util.List;
 import v1.localhost.drwho.R;
 import v1.localhost.drwho.activity.InfoSchedule;
 import v1.localhost.drwho.activity.ScheduleActivity;
+import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.AppointmentSchedule;
 
 /**
@@ -43,7 +44,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<v1.localhost.drwho.ada
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final AppointmentSchedule appointmentSchedule = appointmentSchedules.get(position);
 
-        holder.txtName.setText(appointmentSchedule.getClient().getName());
+        holder.txtName.setText(SingletonUser.getInstance().getUsuario().getName());
         holder.txtDay.setText(appointmentSchedule.getDateSchedule().toString());
         holder.txtDoctorName.setText(appointmentSchedule.getDoctor().getName());
         holder.txtSpecs.setText(appointmentSchedule.getDoctor().getSpecialization());
@@ -76,7 +77,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<v1.localhost.drwho.ada
 
             linear = (CardView) itemView.findViewById(R.id.parent);
             txtName = (TextView) itemView.findViewById(R.id.txtName);
-            txtDoctorName = (TextView) itemView.findViewById(R.id.txtDoctor);
+            txtDoctorName = (TextView) itemView.findViewById(R.id.txtDoctorName);
             txtDay = (TextView) itemView.findViewById(R.id.txtDay);
             txtSpecs = (TextView) itemView.findViewById(R.id.txtSpecs);
         }

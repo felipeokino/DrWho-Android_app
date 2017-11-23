@@ -38,11 +38,11 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if(ValidateFields())
+                //if(ValidateFields())
                     CreateUserLogin(Long.parseLong(user.getText().toString()));
 
-                else
-                    Toast.makeText(getBaseContext(), "Empty fields", Toast.LENGTH_LONG).show();*/
+//                else
+//                    Toast.makeText(getBaseContext(), "Empty fields", Toast.LENGTH_LONG).show();
                 Next();
             }
         });

@@ -37,12 +37,14 @@ import v1.localhost.drwho.models.Doctor;
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHolder> {
     private List<Doctor> doctors;
             Context context;
-    private Date date;
+    private String date;
+    private String hour;
 
-    public DoctorAdapter(ArrayList<Doctor> _doctors, Context context, Date date) {
+    public DoctorAdapter(ArrayList<Doctor> _doctors, Context context, String date, String hour) {
         this.doctors = _doctors;
         this.context = context;
         this.date = date;
+        this.hour = hour;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Doctor doctor = doctors.get(position);
-        final AppointmentSchedule appointmentSchedule = new AppointmentSchedule(SingletonUser.getInstance().getUsuario(), doctor, date, null, null, false);
+        final AppointmentSchedule appointmentSchedule = new AppointmentSchedule(SingletonUser.getInstance().getUsuario().getId(), doctor, date, hour, hour, false);
 
         holder.txtName.setText(doctor.getName());
         holder.txtSpecs.setText(doctor.getSpecialization());
@@ -74,10 +76,10 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
                             int codeDoctor = response.code();
 
                             if (codeDoctor == 201){
-                                Toast.makeText(context, "Consulta marcada com sucesso: " + String.valueOf(codeDoctor),
+                                Toast.makeText(context, "Consulta marcada com sucesso: " + String.valueOf(codeDoctor) ,
                                         Toast.LENGTH_LONG).show();
                             }else {
-                                Toast.makeText(context, "Falha: " + String.valueOf(codeDoctor),
+                                Toast.makeText(context, "Falha: " + String.valueOf(codeDoctor)+ " " + response.message(),
                                         Toast.LENGTH_LONG).show();
                             }
                         }
@@ -90,6 +92,8 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
                 }catch (Exception e){
                     Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
+            Toast.makeText(context, "Data: " + date + " and hour is: " + hour, Toast.LENGTH_LONG).show();
+
 
             }
         });

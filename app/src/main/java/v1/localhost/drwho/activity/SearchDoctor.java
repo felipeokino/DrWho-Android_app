@@ -1,6 +1,8 @@
 package v1.localhost.drwho.activity;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.support.annotation.IntDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,15 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.*;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,9 +40,9 @@ public class SearchDoctor extends AppCompatActivity {
     Spinner spinner;
     private DoctorAdapter doctorAdapter;
     RecyclerView recyclerView;
-    Calendar calendar;
-    Date date;
+    Calendar calendar, newDate, newHour;
     int day, month, year;
+    SimpleDateFormat formatter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +52,12 @@ public class SearchDoctor extends AppCompatActivity {
 
         InitializeComponent();
         CreateDatePicker();
+        TimePickerDialog();
+
+        //TODO converter date format
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+
         SearchAll(false);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
         doctors = new ArrayList<>();
@@ -117,7 +121,7 @@ public class SearchDoctor extends AppCompatActivity {
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
                     doctors = response.body().getResults();
                     recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
-                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), date);
+                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), ConvertDate(newDate.getTime()), ConvertDateToTime(newDate.getTime()));
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
                     if(show)
@@ -143,10 +147,10 @@ public class SearchDoctor extends AppCompatActivity {
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
                     doctors = response.body().getResults();
                     recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
-                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), date);
+                    //ConvertToDate();
+                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), ConvertDate(newDate.getTime()), ConvertDateToTime(newDate.getTime()));
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
-
                     Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
                 }
 
@@ -193,31 +197,59 @@ public class SearchDoctor extends AppCompatActivity {
     }
 
 
-    public void GetDate(int year, int month, int dayOfMonth){
-        month = month + 1;
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy/mm/dd");
-
-    }
-
-    public void CreateDatePicker(){
-
+    public void CreateDatePicker() {
         calendar = Calendar.getInstance();
+        newDate = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog;
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month +1;
-                SimpleDateFormat format = new SimpleDateFormat("yyyy/mm/dd");
-                try {
-                    date = format.parse(year + "-" + month + "-" + dayOfMonth);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                newDate.set(year, month, dayOfMonth);
             }
         }, year, month, day);
         datePickerDialog.show();
     }
+    private void TimePickerDialog() {
+
+        TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hour, int minute) {
+                newDate.set(Calendar.HOUR_OF_DAY, hour);
+                newDate.set(Calendar.MINUTE, minute);
+            }
+        };
+        TimePickerDialog dialog = new TimePickerDialog(this, mTimeSetListener,
+                Calendar.HOUR_OF_DAY,
+                Calendar.MINUTE,
+                true);
+
+        dialog.show();
+    }
+    public String ConvertDateToTime(Date date){
+
+        DateFormat df = new SimpleDateFormat("hh-mm");
+        String s = df.format(date);
+        String result = s;
+
+        try {
+            date=df.parse(result);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public String ConvertDate(Date date){
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String s = df.format(date);
+        String result = s;
 
 
+        return result;
+    }
 }

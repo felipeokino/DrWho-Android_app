@@ -9,14 +9,14 @@ import java.util.Date;
 public class AppointmentSchedule {
     private long id;
 
-    private Client client;
+    private long client;
     private Doctor doctor;
-    private Date dateSchedule;
-    private Date startTimeScheduled;
-    private Date endTimeScheduled;
+    private String dateSchedule;
+    private String startTimeScheduled;
+    private String endTimeScheduled;
 
-    public AppointmentSchedule(Client client, Doctor doctor, Date dateSchedule,
-                               Date startTimeScheduled, Date endTimeScheduled, boolean isDeleted) {
+    public AppointmentSchedule(long client, Doctor doctor, String dateSchedule,
+                               String startTimeScheduled, String endTimeScheduled, boolean isDeleted) {
 
         this.client = client;
         this.doctor = doctor;
@@ -28,7 +28,7 @@ public class AppointmentSchedule {
 
     private boolean isDeleted;
 
-    public AppointmentSchedule() {
+    public AppointmentSchedule(long id, Doctor doctor, String date, Object startTimeScheduled, Object endTimeScheduled, boolean isDeleted) {
     }
 
     public long getId() {
@@ -39,11 +39,11 @@ public class AppointmentSchedule {
         this.id = id;
     }
 
-    public Client getClient() {
+    public long getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(long client) {
         this.client = client;
     }
 
@@ -55,27 +55,27 @@ public class AppointmentSchedule {
         this.doctor = doctor;
     }
 
-    public Date getDateSchedule() {
+    public String getDateSchedule() {
         return dateSchedule;
     }
 
-    public void setDateSchedule(Date dateSchedule) {
+    public void setDateSchedule(String dateSchedule) {
         this.dateSchedule = dateSchedule;
     }
 
-    public Date getStartTimeScheduled() {
+    public String getStartTimeScheduled() {
         return startTimeScheduled;
     }
 
-    public void setStartTimeScheduled(Date startTimeScheduled) {
+    public void setStartTimeScheduled(String startTimeScheduled) {
         this.startTimeScheduled = startTimeScheduled;
     }
 
-    public Date getEndTimeScheduled() {
+    public String getEndTimeScheduled() {
         return endTimeScheduled;
     }
 
-    public void setEndTimeScheduled(Date endTimeScheduled) {
+    public void setEndTimeScheduled(String endTimeScheduled) {
         this.endTimeScheduled = endTimeScheduled;
     }
 

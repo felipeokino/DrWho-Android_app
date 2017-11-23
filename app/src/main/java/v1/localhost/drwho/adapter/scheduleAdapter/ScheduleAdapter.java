@@ -43,8 +43,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final AppointmentSchedule appointmentSchedule = appointmentSchedules.get(position);
 
-        holder.txtName.setText(appointmentSchedule.getClient().getName());
-        holder.txtDay.setText(appointmentSchedule.getDateSchedule().toString());
+        //holder.txtName.setText(appointmentSchedule.getClient().getName());
+        holder.txtDay.setText(appointmentSchedule.getDateSchedule());
         holder.txtDoctorName.setText(appointmentSchedule.getDoctor().getName());
         holder.txtSpecs.setText(appointmentSchedule.getDoctor().getSpecialization());
 
@@ -76,7 +76,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
 
             linear = (CardView) itemView.findViewById(R.id.parent);
             txtName = (TextView) itemView.findViewById(R.id.txtName);
-            txtDoctorName = (TextView) itemView.findViewById(R.id.txtDoctor);
+            txtDoctorName = (TextView) itemView.findViewById(R.id.txtDoctorName);
             txtDay = (TextView) itemView.findViewById(R.id.txtDay);
             txtSpecs = (TextView) itemView.findViewById(R.id.txtSpecs);
         }
