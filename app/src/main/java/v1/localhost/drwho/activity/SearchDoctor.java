@@ -2,7 +2,6 @@ package v1.localhost.drwho.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.support.annotation.IntDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +12,6 @@ import android.view.View;
 import android.widget.*;
 
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import v1.localhost.drwho.adapter.doctorAdapter.DoctorAdapter;
-import v1.localhost.drwho.classes.DoctorResponse;
+import v1.localhost.drwho.utils.DoctorResponse;
 import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.Doctor;
 import v1.localhost.drwho.R;
@@ -40,7 +37,7 @@ public class SearchDoctor extends AppCompatActivity {
     Spinner spinner;
     private DoctorAdapter doctorAdapter;
     RecyclerView recyclerView;
-    Calendar calendar, newDate, newHour;
+    Calendar calendar, newDate, endHour;
     int day, month, year;
     SimpleDateFormat formatter;
 
@@ -78,19 +75,21 @@ public class SearchDoctor extends AppCompatActivity {
             public void onClick(View v) {
                 all.setChecked(false);
                 spinner.setVisibility(View.VISIBLE);
+                Toast.makeText(getBaseContext(), newDate.getTime().toString(), Toast.LENGTH_LONG).show();
+
 
             }
         });
 
-        //TODO Adapter utilizado pelo spinner de especializações
-        String[] specs = new String[] {"mortologia", "nutricionista", "oncologista", "pediatra"};
+        //Adapter utilizado pelo spinner de especializações
+        String[] specs = new String[] {"mortologia", "nutricionista", "oncologista", "pediatra", "cardiologista", "anestesista", "dermatologista", "urologista", "proctologista", "ginecologista"};
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, specs);
         spinner.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
 
 
-        //TODO Busca todos os doutores
+        //Busca todos os doutores
 
         image.setOnClickListener(new View.OnClickListener() {
 
@@ -103,8 +102,6 @@ public class SearchDoctor extends AppCompatActivity {
                     String specialization;
                     specialization = spinner.getSelectedItem().toString();
                     SearchBySpecialization(specialization);
-
-                    Toast.makeText(getBaseContext(), "Selectioned Item: " + specialization, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -121,7 +118,7 @@ public class SearchDoctor extends AppCompatActivity {
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
                     doctors = response.body().getResults();
                     recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
-                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), ConvertDate(newDate.getTime()), ConvertDateToTime(newDate.getTime()));
+                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), ConvertDate(newDate.getTime()), ConvertDateToTime(endHour.getTime()));
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
                     if(show)
@@ -145,13 +142,14 @@ public class SearchDoctor extends AppCompatActivity {
             call.enqueue(new Callback<DoctorResponse>() {
                 @Override
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
-                    doctors = response.body().getResults();
-                    recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
-                    //ConvertToDate();
-                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), ConvertDate(newDate.getTime()), ConvertDateToTime(newDate.getTime()));
-                    recyclerView.setAdapter(doctorAdapter);
-                    doctorAdapter.notifyDataSetChanged();
-                    Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
+                    if(response.code() == 200) {
+                        doctors = response.body().getResults();
+                        recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
+                        doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), ConvertDate(newDate.getTime()), ConvertDateToTime(endHour.getTime()));
+                        recyclerView.setAdapter(doctorAdapter);
+                        doctorAdapter.notifyDataSetChanged();
+                        Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
@@ -196,8 +194,8 @@ public class SearchDoctor extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spSpecs);
     }
 
-
     public void CreateDatePicker() {
+
         calendar = Calendar.getInstance();
         newDate = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -213,13 +211,17 @@ public class SearchDoctor extends AppCompatActivity {
         }, year, month, day);
         datePickerDialog.show();
     }
-    private void TimePickerDialog() {
 
+    private void TimePickerDialog() {
+        endHour = Calendar.getInstance();
         TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hour, int minute) {
                 newDate.set(Calendar.HOUR_OF_DAY, hour);
                 newDate.set(Calendar.MINUTE, minute);
+
+                endHour.set(Calendar.HOUR_OF_DAY, hour + 2);
+                endHour.set(Calendar.MINUTE, minute);
             }
         };
         TimePickerDialog dialog = new TimePickerDialog(this, mTimeSetListener,
@@ -229,26 +231,21 @@ public class SearchDoctor extends AppCompatActivity {
 
         dialog.show();
     }
+
     public String ConvertDateToTime(Date date){
 
         DateFormat df = new SimpleDateFormat("hh-mm");
         String s = df.format(date);
         String result = s;
 
-        try {
-            date=df.parse(result);
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         return result;
     }
+
     public String ConvertDate(Date date){
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String s = df.format(date);
         String result = s;
-
 
         return result;
     }

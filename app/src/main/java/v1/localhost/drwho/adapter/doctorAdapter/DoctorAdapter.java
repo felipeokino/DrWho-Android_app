@@ -28,6 +28,7 @@ import v1.localhost.drwho.activity.SearchDoctor;
 import v1.localhost.drwho.connection.iRetrofit;
 import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.AppointmentSchedule;
+import v1.localhost.drwho.models.Client;
 import v1.localhost.drwho.models.Doctor;
 
 /**
@@ -58,8 +59,9 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+        Client id = SingletonUser.getInstance().getUsuario();
         final Doctor doctor = doctors.get(position);
-        final AppointmentSchedule appointmentSchedule = new AppointmentSchedule(SingletonUser.getInstance().getUsuario().getId(), doctor, date, hour, hour, false);
+        final AppointmentSchedule appointmentSchedule = new AppointmentSchedule(id,  doctor, date, hour, hour, false);
 
         holder.txtName.setText(doctor.getName());
         holder.txtSpecs.setText(doctor.getSpecialization());
@@ -93,8 +95,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
                     Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             Toast.makeText(context, "Data: " + date + " and hour is: " + hour, Toast.LENGTH_LONG).show();
-
-
             }
         });
     }

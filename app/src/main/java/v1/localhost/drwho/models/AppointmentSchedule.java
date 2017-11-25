@@ -1,12 +1,16 @@
 package v1.localhost.drwho.models;
 
-import java.util.Date;
+import android.os.Parcel;
+
+import java.io.Serializable;
 
 /**
  * Created by felipe on 04/11/17.
  */
 
-public class AppointmentSchedule {
+public class AppointmentSchedule implements Serializable {
+
+    private final  static long serialVersionUID = 1L;
     private long id;
     private long id_client;
     private Client client;
@@ -14,6 +18,7 @@ public class AppointmentSchedule {
     private String dateSchedule;
     private String startTimeScheduled;
     private String endTimeScheduled;
+    private boolean isDeleted;
 
     public AppointmentSchedule(Client client, Doctor doctor, String dateSchedule,
                                String startTimeScheduled, String endTimeScheduled, boolean isDeleted) {
@@ -37,10 +42,6 @@ public class AppointmentSchedule {
     }
 
     public AppointmentSchedule(){}
-    private boolean isDeleted;
-
-    public AppointmentSchedule(long id, Doctor doctor, String date, Object startTimeScheduled, Object endTimeScheduled, boolean isDeleted) {
-    }
 
     public long getId() {
         return id;
@@ -105,4 +106,5 @@ public class AppointmentSchedule {
     public void setId_client(long id_client) {
         this.id_client = id_client;
     }
+
 }

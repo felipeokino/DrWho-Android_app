@@ -1,6 +1,9 @@
 package v1.localhost.drwho.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import v1.localhost.drwho.R;
+import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.Client;
 import v1.localhost.drwho.connection.iRetrofit;
 
@@ -44,39 +48,39 @@ public class CreateUser extends AppCompatActivity {
     }
 
     public void Done(View view) {
-        Client client = GetClientObject();
+       // if (ValidateFields()) {
+            final Client client = GetClientObject();
+            try {
+                iRetrofit retrofit = iRetrofit.retrofit.create(iRetrofit.class);
+                Call<Client> call = retrofit.addClient(client);
+                call.enqueue(new Callback<Client>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Client> call, @NonNull Response<Client> response) {
+                        int code = response.code();
 
-        try{
-            iRetrofit retrofit = iRetrofit.retrofit.create(iRetrofit.class);
-            Call<Client> call = retrofit.addClient(client);
-            call.enqueue(new Callback<Client>() {
-                @Override
-                public void onResponse(Call<Client> call, Response<Client> response) {
-                    int code = response.code();
+                        if (code == 201) {
+                            GetByCpf(client.getCpf());
+                            ShowAlertDialog();
+                            Toast.makeText(getBaseContext(), "Cadastro efetuado com sucesso: " + String.valueOf(code),
+                                    Toast.LENGTH_LONG).show();
 
-                    if (code == 201){
-                        Toast.makeText(getBaseContext(), "Cadastro efetuado com sucesso: " + String.valueOf(code),
-                                Toast.LENGTH_LONG).show();
-                    }else {
-                        Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(code),
-                                Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(code),
+                                    Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Client> call, Throwable t) {
-                    Toast.makeText(getBaseContext(), t.getMessage(),
-                            Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onFailure(@NonNull Call<Client> call, @NonNull Throwable t) {
+                        Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            } catch (Exception t) {
+                Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
 
-                }
-            });
-
-        }catch (Exception e){
-
-        }
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+//
+        //}
     }
 
     public void Cancel(View view) {
@@ -85,15 +89,15 @@ public class CreateUser extends AppCompatActivity {
     }
 
     public boolean ValidateFields(){
-        if(name.getText().equals(null))
-            if (cpf.getText().equals(null))
-                if(crm.getText().equals(null))
-                    if(address.getText().equals(null))
-                        if(phone.getText().equals(null))
-                            if(birthday.getText().equals(null))
-                                if(specialization.getText().equals(null))
-                                    if(email.getText().equals(null))
-                                        if(passwd.getText().equals(null))
+        if(name.getText() == null)
+            if (cpf.getText() == null)
+                if(crm.getText() == null)
+                    if(address.getText() == null)
+                        if(phone.getText() == null)
+                            if(birthday.getText() == null)
+                                if(specialization.getText() == null)
+                                    if(email.getText() == null)
+                                        if(passwd.getText() == null)
                                             return true;
 
         return false;
@@ -113,14 +117,49 @@ public class CreateUser extends AppCompatActivity {
         done = (Button) findViewById(R.id.btnDone);
     }
 
-    //String email, String senha, String name, String cpf, String address, String phoneNumber
     public Client GetClientObject(){
-        Client client = new Client(  email.getText().toString(),
+        return new Client(  email.getText().toString(),
                                     name.getText().toString(),
                                     cpf.getText().toString(),
                                     address.getText().toString(),
                                     phone.getText().toString(),
                                     false);
-        return client;
     }
+
+    public void ShowAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Seja bem-vindo ao DrWho!")
+        .setMessage("Seu ID de acesso é: " + SingletonUser.getInstance().getUsuario().getId());
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void GetByCpf(String cpf){
+        try{
+            final iRetrofit clients = iRetrofit.retrofit.create(iRetrofit.class);
+            final Call<Client> call = clients.getClientByCpf(cpf);
+            call.enqueue(new Callback<Client>() {
+                @Override
+                public void onResponse(Call<Client> call, Response<Client> response) {
+                    //if (response.code() == 200){
+                    Client client = response.body();
+                    SingletonUser.getInstance().setUsuario(client);
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    startActivity(intent);
+//                  }else {
+//                            Toast.makeText(getBaseContext(), "Erro: " + response.message(), Toast.LENGTH_LONG).show();
+//                        }
+                }
+                @Override
+                public void onFailure(Call<Client> call, Throwable t) {
+                    Toast.makeText(getBaseContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(getBaseContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }finally {
+
+        }
+    }
+
 }

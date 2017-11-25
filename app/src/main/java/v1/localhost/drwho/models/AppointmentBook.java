@@ -40,8 +40,7 @@ public class AppointmentBook {
     public AppointmentBook() {
     }
 
-    public AppointmentBook(long id, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday, Date startTime, Date endTime, Date breakStartTime, Date breakEndTime, boolean isDeleted) {
-        this.id = id;
+    public AppointmentBook(boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday, Date startTime, Date endTime, Date breakStartTime, Date breakEndTime, boolean isDeleted) {
         this.monday = monday;
         this.tuesday = tuesday;
         this.wednesday = wednesday;

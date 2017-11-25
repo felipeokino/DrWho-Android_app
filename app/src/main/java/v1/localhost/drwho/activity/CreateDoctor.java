@@ -1,6 +1,7 @@
 package v1.localhost.drwho.activity;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.Serializable;
-
-import v1.localhost.drwho.connection.iRetrofitAppointmentBook;
 import v1.localhost.drwho.models.AppointmentBook;
 import v1.localhost.drwho.models.Doctor;
 import v1.localhost.drwho.R;
@@ -23,11 +22,10 @@ import v1.localhost.drwho.connection.iRetrofit;
 
 public class CreateDoctor extends AppCompatActivity implements Serializable{
 
-    Button cancel, done;
-    EditText name, cpf, crm, address, phone, birthday, specialization, email, passwd, passwd2;
-    long lastId = 2;
-    Doctor doctor;
-    AppointmentBook appointmentBook;
+    private Button cancel, done;
+    private EditText name, cpf, crm, address, phone, birthday, specialization, email, passwd;
+    //private long lastId = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,16 +48,16 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
     }
 
     public void Done(View view) {
-        //ValidarCampos();
+        ValidateFields();
         try{
                 AppointmentBook appointmentBook = CreateAppointment();
-                doctor = GetDoctorObject(appointmentBook);
+                Doctor doctor = GetDoctorObject(appointmentBook);
 
                 iRetrofit retrofitDoctors = iRetrofit.retrofit.create(iRetrofit.class);
                 Call<Doctor> call = retrofitDoctors.addDoctors(doctor);
                 call.enqueue(new Callback<Doctor>() {
                     @Override
-                    public void onResponse(Call<Doctor> call, Response<Doctor> response) {
+                    public void onResponse(@NonNull Call<Doctor> call, @NonNull Response<Doctor> response) {
                         int codeDoctor = response.code();
 
                         if (codeDoctor == 201){
@@ -72,14 +70,10 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
                     }
 
                     @Override
-                    public void onFailure(Call<Doctor> call, Throwable t) {
-                        Toast.makeText(getBaseContext(), t.getMessage(),
-                                Toast.LENGTH_LONG).show();
-
+                    public void onFailure(@NonNull Call<Doctor> call, @NonNull Throwable t) {
+                        Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-
-
         }catch (Exception e){
             Toast.makeText(getBaseContext(), "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -91,16 +85,15 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
     }
 
     public boolean ValidateFields(){
-        if(name.getText().equals(null))
-            if (cpf.getText().equals(null))
-                if(crm.getText().equals(null))
-                    if(address.getText().equals(null))
-                        if(phone.getText().equals(null))
-                            if(birthday.getText().equals(null))
-                                if(specialization.getText().equals(null))
-                                    if(email.getText().equals(null))
-                                        if(passwd.getText().equals(null))
-                                            if(passwd2.getText().equals(null))
+        if(name.getText() == null)
+            if (cpf.getText() == null)
+                if(crm.getText() == null)
+                    if(address.getText() == null)
+                        if(phone.getText() == null)
+                            if(birthday.getText() == null)
+                                if(specialization.getText() == null)
+                                    if(email.getText() == null)
+                                        if(passwd.getText() == null)
                                                 return true;
 
         return false;
@@ -122,7 +115,7 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
     }
 
     public Doctor GetDoctorObject(AppointmentBook appointmentBook){
-        Doctor doctor = new Doctor( email.getText().toString(),
+        return new Doctor( email.getText().toString(),
                                     name.getText().toString(),
                                     cpf.getText().toString(),
                                     crm.getText().toString(),
@@ -131,41 +124,60 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
                                     specialization.getText().toString(),
                                     appointmentBook,
                                     false);
-        return doctor;
     }
 
-    public AppointmentBook GetAppointmentBookObject(long idAB){
-    AppointmentBook appointmentBook = new AppointmentBook( idAB, false, false, false, false, false, false,
-                                                            false, null, null, null, null, false);
+    public AppointmentBook GetAppointmentBookObject(){
 
-        return appointmentBook;
+        return new AppointmentBook(false, false, false, false, false, false,
+                                                                false, null, null, null, null, false);
     }
 
     public AppointmentBook CreateAppointment(){
-
-        appointmentBook = GetAppointmentBookObject(lastId);
+        //GetLastBookId();
+        AppointmentBook appointmentBook = GetAppointmentBookObject(/*lastId*/);
         iRetrofit retrofitAppointmentBook = iRetrofit.retrofit.create(iRetrofit.class);
         Call<AppointmentBook> call = retrofitAppointmentBook.addAppointment(appointmentBook);
         call.enqueue(new Callback<AppointmentBook>() {
             @Override
-            public void onResponse(Call<AppointmentBook> call, Response<AppointmentBook> response) {
-
+            public void onResponse(@NonNull Call<AppointmentBook> call, @NonNull Response<AppointmentBook> response) {
                 if(response.code() == 201){
                     Toast.makeText(getBaseContext(), "Schedule created", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getBaseContext(), response.message(), Toast.LENGTH_LONG).show();
-
                 }
             }
-
             @Override
-            public void onFailure(Call<AppointmentBook> call, Throwable t) {
+            public void onFailure(@NonNull Call<AppointmentBook> call, @NonNull Throwable t) {
                 Toast.makeText(getBaseContext(), t.getMessage(),
                         Toast.LENGTH_LONG).show();
-
             }
         });
-        lastId += 1;
         return appointmentBook;
     }
+
+//    public void GetLastBookId() {
+//        try {
+//            iRetrofit getBook = iRetrofit.retrofit.create(iRetrofit.class);
+//            Call<BookResponse> call = getBook.getBooks();
+//            call.enqueue(new Callback<BookResponse>() {
+//                @Override
+//                public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+//                    if (response.code() == 200) {
+//                        if(response.body() == null){
+//                            lastId = 1;
+//                        }else{
+//                            ArrayList<AppointmentBook> books = response.body().getResults();
+//                            lastId = response.body().getLastId(books);
+//                        }
+//                    }
+//                }
+//                @Override
+//                public void onFailure(Call<BookResponse> call, Throwable t) {
+//                    Toast.makeText(getBaseContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+//                }
+//            });
+//        }catch (Exception t){
+//            Toast.makeText(getBaseContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+//        }
+//    }
 }

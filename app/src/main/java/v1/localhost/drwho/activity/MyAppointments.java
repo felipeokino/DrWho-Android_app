@@ -1,12 +1,14 @@
 package v1.localhost.drwho.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import v1.localhost.drwho.R;
-import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.AppointmentSchedule;
 
 public class MyAppointments extends AppCompatActivity {
@@ -35,8 +37,8 @@ public class MyAppointments extends AppCompatActivity {
         AppointmentSchedule appointmentSchedule;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            appointmentSchedule = (AppointmentSchedule) extras.get("INFO_EXTRAS");
-            bindParameters(appointmentSchedule);
+            appointmentSchedule = (AppointmentSchedule) extras.get("extra");
+            Log.d("Error: ", appointmentSchedule.getClient().getName());
 
         }else {
             appointmentSchedule = new AppointmentSchedule();
@@ -48,5 +50,17 @@ public class MyAppointments extends AppCompatActivity {
         docName.setText(appointmentSchedule.getDoctor().getName());
         dateAp.setText(appointmentSchedule.getDateSchedule());
         hourAp.setText(appointmentSchedule.getStartTimeScheduled());
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        return super.onOptionsItemSelected(item);
     }
 }

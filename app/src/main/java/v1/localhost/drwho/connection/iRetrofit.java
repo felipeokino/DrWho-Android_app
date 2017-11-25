@@ -8,10 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
-import v1.localhost.drwho.classes.DoctorResponse;
-import v1.localhost.drwho.classes.ScheduleResponse;
+import v1.localhost.drwho.utils.BookResponse;
+import v1.localhost.drwho.utils.DoctorResponse;
+import v1.localhost.drwho.utils.ScheduleResponse;
 import v1.localhost.drwho.models.AppointmentBook;
 import v1.localhost.drwho.models.AppointmentSchedule;
 import v1.localhost.drwho.models.Client;
@@ -23,15 +23,14 @@ import v1.localhost.drwho.models.Doctor;
 
 public interface iRetrofit {
 
-    //String url = "http://192.168.0.7:8080/v1/";
+    String url = "http://192.168.0.104:8080/v1/";
     //String url = "http://200.136.203.180:8080/v1/";
-    String url = "http://10.115.67.74:8080/v1/";
+    //String url = "http://186.219.90.133:8080/v1/";
 
 
     //----------------------------------------------------------------------------------------------
 
-    //TODO Request Clients
-
+    //Request Client
         @POST("client/create")
         Call<Client> addClient (@Body Client client);
 
@@ -41,10 +40,13 @@ public interface iRetrofit {
         @GET("client/retrieveById?")
         Call<Client> getClientById(@Query("id") long id);
 
+        @GET("client/retrieveByCpf?")
+        Call<Client> getClientByCpf(@Query("cpf") String cpf);
+
     //----------------------------------------------------------------------------------------------
 
 
-    //TODO Request Doctors
+    //Request Doctors
 
         @POST("doctor/create")
         Call<Doctor> addDoctors(@Body Doctor doctor);
@@ -62,7 +64,7 @@ public interface iRetrofit {
     //----------------------------------------------------------------------------------------------
 
 
-    //TODO Appointment Schedule
+    //Appointment Schedule
 
     @POST("appointmentSchedule/create")
     Call <AppointmentSchedule> createAppointment(@Body AppointmentSchedule appointmentSchedule);
@@ -70,10 +72,13 @@ public interface iRetrofit {
     @GET("appointmentSchedule/retrieveAllAppointmentSchedules?page=0&&size=20")
     Call<ScheduleResponse> GetAllSchedules();
 
+    @GET("appointmentSchedule/retrieveByUserId?")
+    Call<ScheduleResponse> GetByClient(@Query("id") long id, @Query("page") long page, @Query("size") long size);
+
     //----------------------------------------------------------------------------------------------
 
 
-    //TODO Appointment Book
+    //Appointment Book
 
     @POST("appointmentBook/create")
     Call<AppointmentBook> addAppointment(@Body AppointmentBook appointmentBook);
@@ -82,7 +87,7 @@ public interface iRetrofit {
     Call<AppointmentBook> getById(@Query("id") long id);
 
     @GET("appointmentBook/retrieveAllAppointmentBooks?page=0&size=20")
-    Call<List<AppointmentBook>> getAppointments();
+    Call<BookResponse> getBooks();
 
 
     public static final Retrofit retrofit = new Retrofit.Builder()
