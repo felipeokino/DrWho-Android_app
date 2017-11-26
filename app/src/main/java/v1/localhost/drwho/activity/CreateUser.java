@@ -1,6 +1,5 @@
 package v1.localhost.drwho.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -9,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.Call;
@@ -21,8 +21,10 @@ import v1.localhost.drwho.connection.iRetrofit;
 
 public class CreateUser extends AppCompatActivity {
 
-    Button cancel, done;
-    EditText name, cpf, crm, address, phone, birthday, specialization, email, passwd;
+    Button cancel, done, ok;
+    EditText name, cpf, address, phone, birthday, email, passwd;
+    TextView _birthday;
+    boolean _exists = true;
 
 
     @Override
@@ -30,15 +32,17 @@ public class CreateUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
         setTitle("New User");
-
         InitializeComponents();
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            bindActivity();
+        }
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Cancel(v);
             }
         });
-
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,39 +52,43 @@ public class CreateUser extends AppCompatActivity {
     }
 
     public void Done(View view) {
-       // if (ValidateFields()) {
-            final Client client = GetClientObject();
-            try {
-                iRetrofit retrofit = iRetrofit.retrofit.create(iRetrofit.class);
-                Call<Client> call = retrofit.addClient(client);
-                call.enqueue(new Callback<Client>() {
-                    @Override
-                    public void onResponse(@NonNull Call<Client> call, @NonNull Response<Client> response) {
-                        int code = response.code();
+        if (ValidateFields()) {
+            Toast.makeText(getBaseContext(), "Preencha todos os campos", Toast.LENGTH_LONG).show();
+            Verify(cpf.getText().toString());
+            if(!_exists) {
+                final Client client = GetClientObject();
+                try {
+                    iRetrofit retrofit = iRetrofit.retrofit.create(iRetrofit.class);
+                    Call<Client> call = retrofit.addClient(client);
+                    call.enqueue(new Callback<Client>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Client> call, @NonNull Response<Client> response) {
+                            int code = response.code();
 
-                        if (code == 201) {
-                            GetByCpf(client.getCpf());
-                            ShowAlertDialog();
-                            Toast.makeText(getBaseContext(), "Cadastro efetuado com sucesso: " + String.valueOf(code),
-                                    Toast.LENGTH_LONG).show();
+                            if (code == 201) {
+                                GetByCpf(client.getCpf());
+                                ShowAlertDialog();
+                                Toast.makeText(getBaseContext(), "Cadastro efetuado com sucesso: " + String.valueOf(code),
+                                        Toast.LENGTH_LONG).show();
 
-                        } else {
-                            Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(code),
-                                    Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(code),
+                                        Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<Client> call, @NonNull Throwable t) {
-                        Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            } catch (Exception t) {
-                Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onFailure(@NonNull Call<Client> call, @NonNull Throwable t) {
+                            Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } catch (Exception t) {
+                    Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(getBaseContext(), "Usuário existente", Toast.LENGTH_LONG).show();
             }
-
-//
-        //}
+        }
     }
 
     public void Cancel(View view) {
@@ -91,11 +99,9 @@ public class CreateUser extends AppCompatActivity {
     public boolean ValidateFields(){
         if(name.getText() == null)
             if (cpf.getText() == null)
-                if(crm.getText() == null)
                     if(address.getText() == null)
                         if(phone.getText() == null)
                             if(birthday.getText() == null)
-                                if(specialization.getText() == null)
                                     if(email.getText() == null)
                                         if(passwd.getText() == null)
                                             return true;
@@ -112,9 +118,10 @@ public class CreateUser extends AppCompatActivity {
         birthday = (EditText)findViewById(R.id.edtBirthday);
         email = (EditText)findViewById(R.id.edtEmail);
         passwd = (EditText)findViewById(R.id.edtPasswd);
-
+        _birthday = (TextView)findViewById(R.id.tvBirthday);
         cancel = (Button) findViewById(R.id.btnCancel);
         done = (Button) findViewById(R.id.btnDone);
+        ok = (Button) findViewById(R.id.btnOk);
     }
 
     public Client GetClientObject(){
@@ -130,6 +137,7 @@ public class CreateUser extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Seja bem-vindo ao DrWho!")
         .setMessage("Seu ID de acesso é: " + SingletonUser.getInstance().getUsuario().getId());
+        builder.setCancelable(false);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -160,6 +168,55 @@ public class CreateUser extends AppCompatActivity {
         }finally {
 
         }
+    }
+
+    public void bindActivity(){
+        name.setText(SingletonUser.getInstance().getUsuario().getName());
+        name.setKeyListener(null);
+        cpf.setText(SingletonUser.getInstance().getUsuario().getCpf());
+        cpf.setKeyListener(null);
+        birthday.setVisibility(View.INVISIBLE);
+        _birthday.setVisibility(View.INVISIBLE);
+        address.setText(SingletonUser.getInstance().getUsuario().getAddress());
+        address.setKeyListener(null);
+        phone.setText(SingletonUser.getInstance().getUsuario().getPhoneNumber());
+        phone.setKeyListener(null);
+        email.setText(SingletonUser.getInstance().getUsuario().getEmail());
+        email.setKeyListener(null);
+        passwd.setText("***********");
+        passwd.setKeyListener(null);
+        cancel.setVisibility(View.INVISIBLE);
+        done.setVisibility(View.INVISIBLE);
+        ok.setVisibility(View.VISIBLE);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    public void Verify(String _cpf){
+        final iRetrofit client = iRetrofit.retrofit.create(iRetrofit.class);
+        Call<Client> call = client.getClientByCpf(_cpf);
+        call.enqueue(new Callback<Client>() {
+            @Override
+            public void onResponse(Call<Client> call, Response<Client> response) {
+                if(response.code() == 200){
+                    Toast.makeText(getBaseContext(), "Usuario existente", Toast.LENGTH_LONG).show();
+                    _exists = true;
+                }else if(response.code() == 404){
+                    _exists = false;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Client> call, Throwable t) {
+
+            }
+        });
     }
 
 }

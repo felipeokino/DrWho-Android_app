@@ -28,7 +28,6 @@
                     android:id="@+id/btnSchedule"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
-                    android:background="#48168a"
                     android:layout_marginTop="5dp"
                     app:srcCompat="@drawable/myappointments"
                     android:layout_alignParentTop="true"
@@ -41,14 +40,12 @@
                     android:layout_alignStart="@+id/btnInfos"
                     android:layout_alignTop="@+id/btnSchedule"
                     android:layout_marginRight="10dp"
-                    android:background="#48168a"
                     app:srcCompat="@drawable/add" />
 
                 <ImageButton
                     android:id="@+id/btnProfile"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
-                    android:background="#48168a"
                     android:layout_marginTop="10dp"
                     app:srcCompat="@drawable/profile"
                     android:layout_below="@+id/btnSchedule"
@@ -59,20 +56,9 @@
                     android:layout_width="170dp"
                     android:layout_height="170dp"
                     android:layout_marginRight="12dp"
-                    android:background="#48168a"
                     app:srcCompat="@drawable/infos"
                     android:layout_alignTop="@+id/btnProfile"
                     android:layout_alignParentEnd="true" />
-
-                <Button
-                    android:id="@+id/btnSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="29dp"
-                    android:layout_marginTop="26dp"
-                    android:text="TEMP Seacrh Doctor"
-                    android:layout_below="@+id/btnProfile"
-                    android:layout_alignParentStart="true" />
 
             </RelativeLayout>
         </ScrollView>

@@ -14,8 +14,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import v1.localhost.drwho.R;
 import v1.localhost.drwho.connection.iRetrofit;
+import v1.localhost.drwho.login.SingletonDoctor;
 import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.Client;
+import v1.localhost.drwho.models.Doctor;
 
 public class Login extends AppCompatActivity {
 
@@ -38,13 +40,10 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if(ValidateFields())
+                if(ValidateFields())
                     CreateUserLogin(user.getText().toString());
-
-//                else
-//                    Toast.makeText(getBaseContext(), "Empty fields", Toast.LENGTH_LONG).show();
-
-
+                else
+                    Toast.makeText(getBaseContext(), "Empty fields", Toast.LENGTH_LONG).show();
             }
         });
         newUser.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +54,9 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    public void Next(){
+    public void Next(String user){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("extra", user);
         startActivity(intent);
     }
 
@@ -65,7 +65,7 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void CreateUserLogin(String cpf){
+    public void CreateUserLogin(final String cpf){
         try{
                 final iRetrofit clients = iRetrofit.retrofit.create(iRetrofit.class);
                 final Call<Client> call = clients.getClientByCpf(cpf);
@@ -75,10 +75,11 @@ public class Login extends AppCompatActivity {
                         if (response.code() == 200){
                             client = response.body();
                             SingletonUser.getInstance().setUsuario(client);
-                            Next();
+                            SingletonUser.setIsClient(true);
+                            Next("client");
                             Login.super.finish();
-                        }else if(response.code() == 404) {
-                            CreateDoctorLogin(user.getText().toString());
+                        }else{
+                            CreateDoctorLogin(cpf);
                         }
                     }
                     @Override
@@ -94,22 +95,24 @@ public class Login extends AppCompatActivity {
     public void CreateDoctorLogin(String cpf){
         try{
             final iRetrofit clients = iRetrofit.retrofit.create(iRetrofit.class);
-            final Call<Client> call = clients.getClientByCpf(cpf);
-            call.enqueue(new Callback<Client>() {
+            final Call<Doctor> call = clients.getDoctorByCpf(cpf);
+            call.enqueue(new Callback<Doctor>() {
                 @Override
-                public void onResponse(Call<Client> call, Response<Client> response) {
+                public void onResponse(Call<Doctor> call, Response<Doctor> response) {
                     if (response.code() == 200){
-                        client = response.body();
-                        SingletonUser.getInstance().setUsuario(client);
-                        Toast.makeText(getBaseContext(), client.getName(), Toast.LENGTH_LONG).show();
-                        Next();
+                        Doctor doctor;
+                        doctor = response.body();
+                        SingletonDoctor.getInstance().setDoctor(doctor);
+                        SingletonDoctor.setIsDoctor(true);
+                        Toast.makeText(getBaseContext(), doctor.getName(), Toast.LENGTH_LONG).show();
+                        Next("doctor");
                         Login.super.finish();
                     }else if(response.code() == 404) {
-                        Toast.makeText(getBaseContext(), "Usuário ou senha incorretos", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "Login ou senha incorretos", Toast.LENGTH_LONG).show();
                     }
                 }
                 @Override
-                public void onFailure(Call<Client> call, Throwable t) {
+                public void onFailure(Call<Doctor> call, Throwable t) {
                     Toast.makeText(getBaseContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

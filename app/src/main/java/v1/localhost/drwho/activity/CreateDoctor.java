@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import v1.localhost.drwho.login.SingletonDoctor;
 import v1.localhost.drwho.models.AppointmentBook;
 import v1.localhost.drwho.models.Doctor;
 import v1.localhost.drwho.R;
@@ -18,13 +22,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import v1.localhost.drwho.connection.iRetrofit;
+import v1.localhost.drwho.utils.BookResponse;
 
 
 public class CreateDoctor extends AppCompatActivity implements Serializable{
 
-    private Button cancel, done;
+    private Button cancel, done, ok;
     private EditText name, cpf, crm, address, phone, birthday, specialization, email, passwd;
-    //private long lastId = 0;
+    private TextView _birthday;
+    private long lastId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,30 +51,36 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
                 Done(v);
             }
         });
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            bindActivity();
+        }
     }
 
     public void Done(View view) {
         ValidateFields();
         try{
-                AppointmentBook appointmentBook = CreateAppointment();
-                Doctor doctor = GetDoctorObject(appointmentBook);
+
+                Doctor doctor = GetDoctorObject(CreateAppointment());
 
                 iRetrofit retrofitDoctors = iRetrofit.retrofit.create(iRetrofit.class);
                 Call<Doctor> call = retrofitDoctors.addDoctors(doctor);
                 call.enqueue(new Callback<Doctor>() {
                     @Override
-                    public void onResponse(@NonNull Call<Doctor> call, @NonNull Response<Doctor> response) {
+                    public void onResponse(Call<Doctor> call, Response<Doctor> response) {
                         int codeDoctor = response.code();
 
                         if (codeDoctor == 201){
                             Toast.makeText(getBaseContext(), "Cadastro efetuado com sucesso: " + String.valueOf(codeDoctor),
                                     Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(CreateDoctor.this, Login.class);
+                            startActivity(intent);
                         }else {
                             Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(codeDoctor) + response.message(),
                                     Toast.LENGTH_LONG).show();
                         }
                     }
-
                     @Override
                     public void onFailure(@NonNull Call<Doctor> call, @NonNull Throwable t) {
                         Toast.makeText(getBaseContext(), t.getMessage(), Toast.LENGTH_LONG).show();
@@ -106,12 +118,13 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
         address = (EditText)findViewById(R.id.edtAddress);
         phone = (EditText)findViewById(R.id.edtPhone);
         birthday = (EditText)findViewById(R.id.edtBirthday);
+        _birthday = (TextView) findViewById(R.id.tvBirthday);
         specialization = (EditText)findViewById(R.id.edtSpecs);
         email = (EditText)findViewById(R.id.edtEmail);
         passwd = (EditText)findViewById(R.id.edtPasswd);
-
         cancel = (Button) findViewById(R.id.btnCancel);
         done = (Button) findViewById(R.id.btnDone);
+        ok = (Button)findViewById(R.id.btnOk);
     }
 
     public Doctor GetDoctorObject(AppointmentBook appointmentBook){
@@ -128,56 +141,83 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
 
     public AppointmentBook GetAppointmentBookObject(){
 
-        return new AppointmentBook(false, false, false, false, false, false,
+        return new AppointmentBook(lastId, false, false, false, false, false, false,
                                                                 false, null, null, null, null, false);
     }
 
     public AppointmentBook CreateAppointment(){
-        //GetLastBookId();
+        GetLastBookId();
         AppointmentBook appointmentBook = GetAppointmentBookObject(/*lastId*/);
+
         iRetrofit retrofitAppointmentBook = iRetrofit.retrofit.create(iRetrofit.class);
         Call<AppointmentBook> call = retrofitAppointmentBook.addAppointment(appointmentBook);
         call.enqueue(new Callback<AppointmentBook>() {
             @Override
-            public void onResponse(@NonNull Call<AppointmentBook> call, @NonNull Response<AppointmentBook> response) {
-                if(response.code() == 201){
-                    Toast.makeText(getBaseContext(), "Schedule created", Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(getBaseContext(), response.message(), Toast.LENGTH_LONG).show();
-                }
+            public void onResponse( Call<AppointmentBook> call,  Response<AppointmentBook> response) {
+
             }
             @Override
             public void onFailure(@NonNull Call<AppointmentBook> call, @NonNull Throwable t) {
-                Toast.makeText(getBaseContext(), t.getMessage(),
-                        Toast.LENGTH_LONG).show();
+
             }
         });
         return appointmentBook;
     }
 
-//    public void GetLastBookId() {
-//        try {
-//            iRetrofit getBook = iRetrofit.retrofit.create(iRetrofit.class);
-//            Call<BookResponse> call = getBook.getBooks();
-//            call.enqueue(new Callback<BookResponse>() {
-//                @Override
-//                public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
-//                    if (response.code() == 200) {
-//                        if(response.body() == null){
-//                            lastId = 1;
-//                        }else{
-//                            ArrayList<AppointmentBook> books = response.body().getResults();
-//                            lastId = response.body().getLastId(books);
-//                        }
-//                    }
-//                }
-//                @Override
-//                public void onFailure(Call<BookResponse> call, Throwable t) {
-//                    Toast.makeText(getBaseContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//            });
-//        }catch (Exception t){
-//            Toast.makeText(getBaseContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
-//        }
-//    }
+    public void GetLastBookId() {
+        try {
+            iRetrofit getBook = iRetrofit.retrofit.create(iRetrofit.class);
+            Call<BookResponse> call = getBook.getBooks();
+            call.enqueue(new Callback<BookResponse>() {
+                @Override
+                public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                    if (response.code() == 200) {
+                        if(response.body() == null){
+                            lastId = 1;
+                        }else{
+                            ArrayList<AppointmentBook> books;
+                            books = response.body().getResults();
+                            lastId = books.size();
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<BookResponse> call, Throwable t) {
+                }
+            });
+        }catch (Exception t){
+            Toast.makeText(getBaseContext(), "Exception: " + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+    public void bindActivity(){
+        name.setText(SingletonDoctor.getInstance().getDoctor().getName());
+        name.setKeyListener(null);
+        crm.setText(SingletonDoctor.getInstance().getDoctor().getCrm());
+        crm.setOnClickListener(null);
+        cpf.setText(SingletonDoctor.getInstance().getDoctor().getCpf());
+        cpf.setKeyListener(null);
+        birthday.setVisibility(View.INVISIBLE);
+        _birthday.setVisibility(View.INVISIBLE);
+        address.setText(SingletonDoctor.getInstance().getDoctor().getAddress());
+        address.setKeyListener(null);
+        phone.setText(SingletonDoctor.getInstance().getDoctor().getPhoneNumber());
+        phone.setKeyListener(null);
+        email.setText(SingletonDoctor.getInstance().getDoctor().getEmail());
+        email.setKeyListener(null);
+        specialization.setText(SingletonDoctor.getInstance().getDoctor().getSpecialization());
+        specialization.setKeyListener(null);
+        passwd.setText("***********");
+        passwd.setKeyListener(null);
+        cancel.setVisibility(View.INVISIBLE);
+        done.setVisibility(View.INVISIBLE);
+        ok.setVisibility(View.VISIBLE);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
 }

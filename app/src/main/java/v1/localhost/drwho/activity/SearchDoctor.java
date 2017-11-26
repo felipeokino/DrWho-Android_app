@@ -37,8 +37,9 @@ public class SearchDoctor extends AppCompatActivity {
     Spinner spinner;
     private DoctorAdapter doctorAdapter;
     RecyclerView recyclerView;
-    Calendar calendar, newDate, endHour;
-    int day, month, year;
+    Calendar calendar;
+    String newDate, startHour, endHour;
+    int _dayOfMonth, _month, _year;
     SimpleDateFormat formatter;
 
     @Override
@@ -51,11 +52,11 @@ public class SearchDoctor extends AppCompatActivity {
         CreateDatePicker();
         TimePickerDialog();
 
+
         //TODO converter date format
         formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 
-        SearchAll(false);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
         doctors = new ArrayList<>();
 
@@ -75,7 +76,6 @@ public class SearchDoctor extends AppCompatActivity {
             public void onClick(View v) {
                 all.setChecked(false);
                 spinner.setVisibility(View.VISIBLE);
-                Toast.makeText(getBaseContext(), newDate.getTime().toString(), Toast.LENGTH_LONG).show();
 
 
             }
@@ -97,9 +97,11 @@ public class SearchDoctor extends AppCompatActivity {
             public void onClick(View v) {
                 if(all.isChecked() || all.isSelected()){
                     Toast.makeText(getBaseContext(), SingletonUser.getInstance().getUsuario().getName(), Toast.LENGTH_LONG).show();
-                    SearchAll(true);
+                    SearchAll();
                 }else {
                     String specialization;
+
+                    Toast.makeText(getBaseContext(), _year + "/" + _month + "/" +_dayOfMonth, Toast.LENGTH_LONG).show();
                     specialization = spinner.getSelectedItem().toString();
                     SearchBySpecialization(specialization);
                 }
@@ -108,7 +110,7 @@ public class SearchDoctor extends AppCompatActivity {
         });
     }
 
-    public void SearchAll(final boolean show){
+    public void SearchAll(){
         try{
             final iRetrofit allDoctors = iRetrofit.retrofit.create(iRetrofit.class);
             final Call<DoctorResponse> call = allDoctors.getAllDoctors();
@@ -118,11 +120,11 @@ public class SearchDoctor extends AppCompatActivity {
                 public void onResponse(Call<DoctorResponse> call, Response<DoctorResponse> response) {
                     doctors = response.body().getResults();
                     recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
-                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), ConvertDate(newDate.getTime()), ConvertDateToTime(endHour.getTime()));
+                    doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), newDate, startHour, endHour);
+                    Toast.makeText(getBaseContext(), "Day: " + newDate + "Hour: " + startHour + "~" + endHour, Toast.LENGTH_LONG).show();
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
-                    if(show)
-                        Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -145,7 +147,7 @@ public class SearchDoctor extends AppCompatActivity {
                     if(response.code() == 200) {
                         doctors = response.body().getResults();
                         recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
-                        doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), ConvertDate(newDate.getTime()), ConvertDateToTime(endHour.getTime()));
+                        doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), newDate, startHour, endHour);
                         recyclerView.setAdapter(doctorAdapter);
                         doctorAdapter.notifyDataSetChanged();
                         Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
@@ -197,31 +199,27 @@ public class SearchDoctor extends AppCompatActivity {
     public void CreateDatePicker() {
 
         calendar = Calendar.getInstance();
-        newDate = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        _year = calendar.get(Calendar.YEAR);
+        _month =  calendar.get(Calendar.MONTH);
+        _dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog;
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                newDate.set(year, month, dayOfMonth);
+                newDate = year + "/" + month + "/" +dayOfMonth;
             }
-        }, year, month, day);
+        },_year, _month, _dayOfMonth);
         datePickerDialog.show();
     }
 
     private void TimePickerDialog() {
-        endHour = Calendar.getInstance();
+
         TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hour, int minute) {
-                newDate.set(Calendar.HOUR_OF_DAY, hour);
-                newDate.set(Calendar.MINUTE, minute);
-
-                endHour.set(Calendar.HOUR_OF_DAY, hour + 2);
-                endHour.set(Calendar.MINUTE, minute);
+                startHour = hour + ":" + minute;
+                endHour = (hour+2) + ":" + minute;
             }
         };
         TimePickerDialog dialog = new TimePickerDialog(this, mTimeSetListener,
@@ -230,23 +228,5 @@ public class SearchDoctor extends AppCompatActivity {
                 true);
 
         dialog.show();
-    }
-
-    public String ConvertDateToTime(Date date){
-
-        DateFormat df = new SimpleDateFormat("hh-mm");
-        String s = df.format(date);
-        String result = s;
-
-        return result;
-    }
-
-    public String ConvertDate(Date date){
-
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String s = df.format(date);
-        String result = s;
-
-        return result;
     }
 }

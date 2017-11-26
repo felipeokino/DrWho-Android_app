@@ -38,14 +38,15 @@ import v1.localhost.drwho.models.Doctor;
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHolder> {
     private List<Doctor> doctors;
             Context context;
-    private String date;
-    private String hour;
+    String date;
+    String startHour, endHour;
 
-    public DoctorAdapter(ArrayList<Doctor> _doctors, Context context, String date, String hour) {
+    public DoctorAdapter(ArrayList<Doctor> _doctors, Context context, String date, String startHour, String endHour) {
         this.doctors = _doctors;
         this.context = context;
         this.date = date;
-        this.hour = hour;
+        this.startHour = startHour;
+        this.endHour = endHour;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Client id = SingletonUser.getInstance().getUsuario();
         final Doctor doctor = doctors.get(position);
-        final AppointmentSchedule appointmentSchedule = new AppointmentSchedule(id,  doctor, date, hour, hour, false);
+        final AppointmentSchedule appointmentSchedule = new AppointmentSchedule(id,  doctor, date, startHour, endHour, false);
 
         holder.txtName.setText(doctor.getName());
         holder.txtSpecs.setText(doctor.getSpecialization());
@@ -69,32 +70,30 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.MyViewHold
         holder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    iRetrofit createAppointment = iRetrofit.retrofit.create(iRetrofit.class);
-                    Call<AppointmentSchedule> call = createAppointment.createAppointment(appointmentSchedule);
-                    call.enqueue(new Callback<AppointmentSchedule>() {
-                        @Override
-                        public void onResponse(Call<AppointmentSchedule> call, Response<AppointmentSchedule> response) {
-                            int codeDoctor = response.code();
+            try {
+                iRetrofit createAppointment = iRetrofit.retrofit.create(iRetrofit.class);
+                Call<AppointmentSchedule> call = createAppointment.createAppointment(appointmentSchedule);
+                call.enqueue(new Callback<AppointmentSchedule>() {
+                    @Override
+                    public void onResponse(Call<AppointmentSchedule> call, Response<AppointmentSchedule> response) {
+                        int codeDoctor = response.code();
 
-                            if (codeDoctor == 201){
-                                Toast.makeText(context, "Consulta marcada com sucesso: " + String.valueOf(codeDoctor) ,
-                                        Toast.LENGTH_LONG).show();
-                            }else {
-                                Toast.makeText(context, "Falha: " + String.valueOf(codeDoctor)+ " " + response.message(),
-                                        Toast.LENGTH_LONG).show();
-                            }
+                        if (codeDoctor == 201){
+                            Toast.makeText(context, "Consulta marcada com sucesso ",
+                                    Toast.LENGTH_LONG).show();
+                        }else {
+                            Toast.makeText(context, "Falha: " + String.valueOf(codeDoctor)+ " " + response.message(),
+                                    Toast.LENGTH_LONG).show();
                         }
+                    }
+                    @Override
+                    public void onFailure(Call<AppointmentSchedule> call, Throwable t) {
 
-                        @Override
-                        public void onFailure(Call<AppointmentSchedule> call, Throwable t) {
-
-                        }
-                    });
+                    }
+                });
                 }catch (Exception e){
                     Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-            Toast.makeText(context, "Data: " + date + " and hour is: " + hour, Toast.LENGTH_LONG).show();
             }
         });
     }

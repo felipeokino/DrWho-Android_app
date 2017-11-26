@@ -108,4 +108,8 @@ public class Doctor{
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
+
+    public long getId() {
+        return id;
+    }
 }

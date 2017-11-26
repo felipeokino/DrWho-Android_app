@@ -232,6 +232,16 @@
             android:textColor="@color/white"
             android:text="Cancel" />
 
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/btnDone"
+            android:layout_alignTop="@+id/btnDone"
+            android:background="@color/colorPrimary"
+            android:text="OK"
+            android:textColor="@color/white"
+            android:visibility="invisible" />
 
 
     </RelativeLayout>
