@@ -30,15 +30,24 @@ public class AppointmentSchedule implements Serializable {
         this.endTimeScheduled = endTimeScheduled;
         this.isDeleted = isDeleted;
     }
-    public AppointmentSchedule(long id_client, Doctor doctor, String dateSchedule,
+    public AppointmentSchedule(long id, Client client, Doctor doctor, String dateSchedule,
                                String startTimeScheduled, String endTimeScheduled, boolean isDeleted) {
-
-        this.id_client = id_client;
+        this.id = id;
+        this.client = client;
         this.doctor = doctor;
         this.dateSchedule = dateSchedule;
         this.startTimeScheduled = startTimeScheduled;
         this.endTimeScheduled = endTimeScheduled;
         this.isDeleted = isDeleted;
+    }
+    public AppointmentSchedule(long id, AppointmentSchedule appointmentSchedule) {
+        this.id = id;
+        this.client = appointmentSchedule.getClient();
+        this.doctor = appointmentSchedule.getDoctor();
+        this.dateSchedule = appointmentSchedule.getDateSchedule();
+        this.startTimeScheduled = appointmentSchedule.getStartTimeScheduled();
+        this.endTimeScheduled = appointmentSchedule.getEndTimeScheduled();
+        this.isDeleted = appointmentSchedule.isDeleted();
     }
 
     public AppointmentSchedule(){}

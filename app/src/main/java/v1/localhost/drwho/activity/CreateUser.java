@@ -18,6 +18,7 @@ import v1.localhost.drwho.R;
 import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.Client;
 import v1.localhost.drwho.connection.iRetrofit;
+import v1.localhost.drwho.utils.MaskUtils;
 
 public class CreateUser extends AppCompatActivity {
 
@@ -37,6 +38,8 @@ public class CreateUser extends AppCompatActivity {
         if(bundle != null){
             bindActivity();
         }
+        cpf.addTextChangedListener(MaskUtils.insert(cpf, MaskUtils.MaskType.CPF));
+        phone.addTextChangedListener(MaskUtils.insert(phone, MaskUtils.MaskType.PHONE));
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,9 +56,8 @@ public class CreateUser extends AppCompatActivity {
 
     public void Done(View view) {
         if (ValidateFields()) {
-            Toast.makeText(getBaseContext(), "Preencha todos os campos", Toast.LENGTH_LONG).show();
             Verify(cpf.getText().toString());
-            if(!_exists) {
+            if(!is_exists()) {
                 final Client client = GetClientObject();
                 try {
                     iRetrofit retrofit = iRetrofit.retrofit.create(iRetrofit.class);
@@ -66,10 +68,11 @@ public class CreateUser extends AppCompatActivity {
                             int code = response.code();
 
                             if (code == 201) {
-                                GetByCpf(client.getCpf());
-                                ShowAlertDialog();
                                 Toast.makeText(getBaseContext(), "Cadastro efetuado com sucesso: " + String.valueOf(code),
                                         Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getBaseContext(), Login.class);
+                                startActivity(intent);
+
 
                             } else {
                                 Toast.makeText(getBaseContext(), "Falha: " + String.valueOf(code),
@@ -88,6 +91,8 @@ public class CreateUser extends AppCompatActivity {
             }else{
                 Toast.makeText(getBaseContext(), "Usuário existente", Toast.LENGTH_LONG).show();
             }
+        }else{
+            Toast.makeText(getBaseContext(), "Preencha todos os campos", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -99,14 +104,14 @@ public class CreateUser extends AppCompatActivity {
     public boolean ValidateFields(){
         if(name.getText() == null)
             if (cpf.getText() == null)
-                    if(address.getText() == null)
-                        if(phone.getText() == null)
-                            if(birthday.getText() == null)
-                                    if(email.getText() == null)
-                                        if(passwd.getText() == null)
-                                            return true;
+                if(address.getText() == null)
+                    if(phone.getText() == null)
+                        if(birthday.getText() == null)
+                            if(email.getText() == null)
+                                if(passwd.getText() == null)
+                                    return false;
 
-        return false;
+        return true;
     }
     public void InitializeComponents(){
         cancel = (Button) findViewById(R.id.btnCancel);
@@ -206,17 +211,24 @@ public class CreateUser extends AppCompatActivity {
             public void onResponse(Call<Client> call, Response<Client> response) {
                 if(response.code() == 200){
                     Toast.makeText(getBaseContext(), "Usuario existente", Toast.LENGTH_LONG).show();
-                    _exists = true;
+                    set_exists(true);
                 }else if(response.code() == 404){
-                    _exists = false;
+                    set_exists(false);
                 }
             }
 
             @Override
             public void onFailure(Call<Client> call, Throwable t) {
-
+                Toast.makeText(getBaseContext(), "Usuario existente", Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    public boolean is_exists() {
+        return _exists;
+    }
+
+    public void set_exists(boolean _exists) {
+        this._exists = _exists;
+    }
 }

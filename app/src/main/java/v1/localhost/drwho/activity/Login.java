@@ -18,6 +18,7 @@ import v1.localhost.drwho.login.SingletonDoctor;
 import v1.localhost.drwho.login.SingletonUser;
 import v1.localhost.drwho.models.Client;
 import v1.localhost.drwho.models.Doctor;
+import v1.localhost.drwho.utils.MaskUtils;
 
 public class Login extends AppCompatActivity {
 
@@ -36,7 +37,7 @@ public class Login extends AppCompatActivity {
         newUser = (TextView) findViewById(R.id.tvNewUser);
         user = (EditText) findViewById(R.id.edtUser);
         passwd = (EditText) findViewById(R.id.edtPasswd);
-
+        user.addTextChangedListener(MaskUtils.insert(user, MaskUtils.MaskType.CPF));
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

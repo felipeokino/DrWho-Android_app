@@ -23,6 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import v1.localhost.drwho.connection.iRetrofit;
 import v1.localhost.drwho.utils.BookResponse;
+import v1.localhost.drwho.utils.MaskUtils;
 
 
 public class CreateDoctor extends AppCompatActivity implements Serializable{
@@ -39,6 +40,9 @@ public class CreateDoctor extends AppCompatActivity implements Serializable{
         setTitle("New Doctor");
         InitializeComponents();
 
+        cpf.addTextChangedListener(MaskUtils.insert(cpf, MaskUtils.MaskType.CPF));
+        crm.addTextChangedListener(MaskUtils.insert(crm, MaskUtils.MaskType.CRM));
+        phone.addTextChangedListener(MaskUtils.insert(phone, MaskUtils.MaskType.PHONE));
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

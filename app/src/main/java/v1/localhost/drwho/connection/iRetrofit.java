@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import v1.localhost.drwho.utils.BookResponse;
 import v1.localhost.drwho.utils.DoctorResponse;
@@ -71,6 +72,9 @@ public interface iRetrofit {
 
     @POST("appointmentSchedule/create")
     Call <AppointmentSchedule> createAppointment(@Body AppointmentSchedule appointmentSchedule);
+
+    @PUT("appointmentSchedule/update")
+    Call<Void> updateAppointment(@Body AppointmentSchedule appointmentSchedule);
 
     @GET("appointmentSchedule/retrieveAllAppointmentSchedules?page=0&&size=20")
     Call<ScheduleResponse> GetAllSchedules();

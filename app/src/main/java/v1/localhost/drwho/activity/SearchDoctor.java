@@ -53,10 +53,8 @@ public class SearchDoctor extends AppCompatActivity {
         TimePickerDialog();
 
 
-        //TODO converter date format
         formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-
+        
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewDoctors);
         doctors = new ArrayList<>();
 
@@ -96,12 +94,9 @@ public class SearchDoctor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(all.isChecked() || all.isSelected()){
-                    Toast.makeText(getBaseContext(), SingletonUser.getInstance().getUsuario().getName(), Toast.LENGTH_LONG).show();
                     SearchAll();
                 }else {
                     String specialization;
-
-                    Toast.makeText(getBaseContext(), _year + "/" + _month + "/" +_dayOfMonth, Toast.LENGTH_LONG).show();
                     specialization = spinner.getSelectedItem().toString();
                     SearchBySpecialization(specialization);
                 }
@@ -121,7 +116,6 @@ public class SearchDoctor extends AppCompatActivity {
                     doctors = response.body().getResults();
                     recyclerView.setLayoutManager(new LinearLayoutManager(SearchDoctor.this));
                     doctorAdapter = new DoctorAdapter(doctors, getApplicationContext(), newDate, startHour, endHour);
-                    Toast.makeText(getBaseContext(), "Day: " + newDate + "Hour: " + startHour + "~" + endHour, Toast.LENGTH_LONG).show();
                     recyclerView.setAdapter(doctorAdapter);
                     doctorAdapter.notifyDataSetChanged();
                     Toast.makeText(getBaseContext(), "Encontrado: " + response.body().getSize(doctors) + " resultado(s)", Toast.LENGTH_LONG).show();
@@ -207,7 +201,7 @@ public class SearchDoctor extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                newDate = year + "/" + month + "/" +dayOfMonth;
+                newDate = year + "/" + (month+1) + "/" +dayOfMonth;
             }
         },_year, _month, _dayOfMonth);
         datePickerDialog.show();
@@ -218,7 +212,11 @@ public class SearchDoctor extends AppCompatActivity {
         TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hour, int minute) {
-                startHour = hour + ":" + minute;
+                if(minute == 0){
+                    startHour = hour + ":" + minute + 0;
+                }else{
+                    startHour = hour + ":" + minute;
+                }
                 endHour = (hour+2) + ":" + minute;
             }
         };

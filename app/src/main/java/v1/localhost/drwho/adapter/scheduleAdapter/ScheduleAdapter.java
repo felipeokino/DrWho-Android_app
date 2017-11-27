@@ -28,8 +28,7 @@ import v1.localhost.drwho.models.Client;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyViewHolder> {
     private ArrayList<AppointmentSchedule> appointmentSchedules;
     private Context context;
-    private Client client;
-
+    Client client;
 
     public ScheduleAdapter(ArrayList<AppointmentSchedule> appointmentSchedules, Context context) {
         this.appointmentSchedules = appointmentSchedules;
@@ -48,7 +47,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final AppointmentSchedule appointmentSchedule = appointmentSchedules.get(position);
-        final Client _client = SingletonUser.getInstance().getUsuario();
 
         holder.txtName.setText("Paciente: " + appointmentSchedule.getClient().getName());
         holder.txtDay.setText("Dia: " + appointmentSchedule.getDateSchedule());
@@ -56,7 +54,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
         holder.txtSpecs.setText("Especialidade: " + appointmentSchedule.getDoctor().getSpecialization());
         holder.txtHour.setText("Hora: " + appointmentSchedule.getStartTimeScheduled());
 
-        if(!appointmentSchedule.isDeleted())
+        if (!appointmentSchedule.isDeleted())
             holder.cancel.setVisibility(View.INVISIBLE);
         else
             holder.cancel.setVisibility(View.VISIBLE);
@@ -64,10 +62,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-               appointmentSchedule.setDeleted(true);
-                //TODO realizar a atualização da consulta @PUT "appointmentSchedule/update"
-                notifyDataSetChanged();
-                Toast.makeText(context, "Consulta cancelada", Toast.LENGTH_LONG).show();
+                UpdateObject(appointmentSchedule);
+                holder.cancel.setVisibility(View.VISIBLE);
                 return true;
             }
         });
@@ -82,7 +78,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
                 try {
                     if (response.code() == 200) {
                         client = response.body();
-
                     } else {
                         Toast.makeText(context, "Error" + response.code() + response.message(), Toast.LENGTH_LONG).show();
                     }
@@ -136,5 +131,32 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
         this.appointmentSchedules.clear();
         this.appointmentSchedules.addAll(noteList);
         notifyDataSetChanged();
+    }
+
+    public void UpdateObject(AppointmentSchedule appointmentSchedule) {
+        try {
+            appointmentSchedule.setDeleted(true);
+            iRetrofit update = iRetrofit.retrofit.create(iRetrofit.class);
+            Call<Void> call = update.updateAppointment(appointmentSchedule);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.code() == 204) {
+                        Toast.makeText(context, "Consulta cancelada", Toast.LENGTH_LONG).show();
+                        notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(context, "Fatal Error: " + response.message(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(context, "Fatal Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }
