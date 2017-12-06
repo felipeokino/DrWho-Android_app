@@ -123,9 +123,10 @@ public class Login extends AppCompatActivity {
     }
 
     public boolean ValidateFields(){
-        if (user.getText().length() == 0)
-            if(passwd.getText().length() == 0)
+        if (user.getText() == null)
+            if(passwd.getText() == null)
                 return false;
+
         return true;
     }
 

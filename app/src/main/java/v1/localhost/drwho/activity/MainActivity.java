@@ -12,6 +12,8 @@ import java.util.Objects;
 import v1.localhost.drwho.R;
 import v1.localhost.drwho.login.SingletonDoctor;
 import v1.localhost.drwho.login.SingletonUser;
+import v1.localhost.drwho.models.Client;
+import v1.localhost.drwho.models.Doctor;
 
 public class MainActivity extends AppCompatActivity {
     String type;
@@ -25,8 +27,26 @@ public class MainActivity extends AppCompatActivity {
         ImageButton add = (ImageButton) findViewById(R.id.btnAddAppointment);
         ImageButton profile = (ImageButton) findViewById(R.id.btnProfile);
         ImageButton infos = (ImageButton) findViewById(R.id.btnInfos);
+        ImageButton logout = (ImageButton) findViewById(R.id.btnLogout);
 
 
+        // Logout
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(SingletonUser.isClient()){
+                    Client client = null;
+                    SingletonUser.getInstance().setUsuario(client);
+                    SingletonUser.setIsClient(false);
+                }else{
+                    Doctor doctor = null;
+                    SingletonDoctor.getInstance().setDoctor(doctor);
+                    SingletonDoctor.setIsDoctor(false);
+                }
+                Intent intent = new Intent(getBaseContext(), Login.class);
+                startActivity(intent);
+            }
+        });
         // Visualizar minhas consultas
         schedule.setOnClickListener(new View.OnClickListener() {
             @Override
